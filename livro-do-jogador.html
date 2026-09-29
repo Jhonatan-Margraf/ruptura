@@ -1,0 +1,2339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ruptura do Divino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#f1e4c5;
+  --paper-2:#e9d8b1;
+  --paper-3:#dcc590;
+  --paper-hi:#f8efd9;
+  --ink:#2e2013;
+  --ink-soft:#5e4731;
+  --ink-faint:#8a7152;
+  --rubric:#8e2c1d;
+  --rubric-soft:#b5503b;
+  --gilt:#9a7124;
+  --verdigris:#3d6a5a;
+  --line:#c9ad78;
+  --shadow:0 1px 0 rgba(255,250,235,.6) inset, 0 6px 18px -10px rgba(60,35,10,.45);
+  --display:"IM Fell English SC","Palatino Linotype",Palatino,Georgia,serif;
+  --fell:"IM Fell English","Palatino Linotype",Palatino,Georgia,serif;
+  --body:"EB Garamond",Garamond,"Palatino Linotype",Georgia,serif;
+  --hdr:118px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{
+  margin:0;
+  font-family:var(--body);
+  font-size:18px;
+  line-height:1.6;
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(255,248,228,.9), transparent 60%),
+    radial-gradient(ellipse at 0% 100%, rgba(150,105,45,.18), transparent 55%),
+    radial-gradient(ellipse at 100% 60%, rgba(150,105,45,.14), transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .24 0 0 0 0 .1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-attachment:fixed;
+  font-variant-numeric:oldstyle-nums;
+}
+::selection{background:rgba(142,44,29,.22)}
+a{color:var(--rubric)}
+:focus-visible{outline:2px solid var(--rubric);outline-offset:2px;border-radius:3px}
+[hidden]{display:none!important}
+img{max-width:100%}
+
+/* ---------- header ---------- */
+.top{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
+  background:rgba(241,228,197,.94);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 8px 16px -14px rgba(60,35,10,.6);
+}
+.top-row{
+  max-width:1200px;margin:0 auto;padding:10px 16px 6px;
+  display:flex;align-items:center;gap:12px;
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);min-width:0;flex:1}
+.brand svg{flex:none}
+.brand-txt{display:flex;flex-direction:column;line-height:1.05;min-width:0}
+.brand-name{font-family:var(--display);font-size:1.28rem;letter-spacing:.02em;white-space:nowrap}
+.brand-sub{font-family:var(--fell);font-style:italic;font-size:.85rem;color:var(--ink-soft)}
+.search-wrap{position:relative;flex:0 1 320px}
+.search-wrap input{
+  width:100%;font:inherit;font-size:1rem;color:var(--ink);
+  background:var(--paper-hi);border:1px solid var(--line);border-radius:999px;
+  padding:7px 14px 7px 36px;
+}
+.search-wrap input::-webkit-search-cancel-button{-webkit-appearance:none}
+.search-wrap input::placeholder{color:var(--ink-faint);font-style:italic}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none}
+.icon-btn{
+  flex:none;display:none;align-items:center;justify-content:center;
+  width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
+  background:var(--paper-hi);color:var(--ink);cursor:pointer;
+}
+.chips{
+  max-width:1200px;margin:0 auto;
+  display:flex;gap:6px;overflow-x:auto;padding:4px 16px 10px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.chips::-webkit-scrollbar{display:none}
+.chips a{
+  flex:none;text-decoration:none;color:var(--ink-soft);
+  font-family:var(--display);font-size:.92rem;letter-spacing:.03em;
+  padding:4px 12px;border-radius:999px;border:1px solid transparent;
+  white-space:nowrap;transition:background .2s,color .2s,border-color .2s;
+}
+.chips a:hover{border-color:var(--line)}
+.chips a.on{background:var(--ink);color:var(--paper-hi)}
+
+/* search results */
+.results{
+  position:absolute;left:0;right:0;top:calc(100% + 8px);
+  background:var(--paper-hi);border:1px solid var(--line);border-radius:10px;
+  box-shadow:0 18px 40px -18px rgba(50,30,10,.55);
+  max-height:min(60vh,460px);overflow:auto;z-index:60;padding:6px;
+}
+.results button{
+  display:block;width:100%;text-align:left;font:inherit;color:var(--ink);
+  background:none;border:0;border-radius:6px;padding:8px 10px;cursor:pointer;
+}
+.results button:hover,.results button:focus-visible{background:var(--paper-2)}
+.r-where{font-family:var(--display);font-size:.78rem;letter-spacing:.06em;color:var(--rubric);display:block}
+.r-title{font-weight:600;display:block;line-height:1.25}
+.r-snip{font-size:.92rem;color:var(--ink-soft);display:block;line-height:1.35}
+.results mark{background:rgba(154,113,36,.3);color:inherit;border-radius:2px;padding:0 1px}
+.r-empty{padding:12px;color:var(--ink-soft);font-style:italic}
+
+/* ---------- layout ---------- */
+.shell{max-width:1200px;margin:0 auto;padding-inline:16px;display:grid;grid-template-columns:1fr;gap:40px}
+.toc{display:none}
+main{min-width:0;padding-block:8px 120px}
+.wrap{max-width:720px;margin:0 auto}
+
+@media (min-width:980px){
+  .shell{grid-template-columns:230px minmax(0,1fr)}
+  .chips{display:none}
+  :root{--hdr:72px}
+  .toc{
+    display:block;position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px);
+    align-self:start;max-height:calc(100vh - 100px);overflow:auto;padding-block:24px;
+  }
+  .toc ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--line)}
+  .toc a{
+    display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--ink-soft);
+    padding:5px 0 5px 14px;margin-left:-1px;border-left:2px solid transparent;
+    font-size:1rem;line-height:1.3;
+  }
+  .toc a .n{font-family:var(--display);font-size:.8rem;color:var(--ink-faint);min-width:2.2em}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--ink);border-left-color:var(--rubric);font-weight:600}
+  .toc a.on .n{color:var(--rubric)}
+  .toc-label{font-family:var(--display);letter-spacing:.12em;font-size:.8rem;color:var(--rubric);margin:0 0 10px}
+}
+@media (max-width:640px){
+  .search-wrap{display:none;position:static;flex:none}
+  .top.searching .search-wrap{display:block;position:absolute;left:16px;right:16px;top:8px}
+  .top.searching .brand{visibility:hidden}
+  .icon-btn{display:inline-flex}
+  .results{top:calc(100% + 6px)}
+  body{font-size:17.5px}
+}
+section[id],[data-s],.prop[id],tr[id],.sp[id],.cult[id],.rc[id],.per[id]{scroll-margin-top:calc(var(--hdr) + 16px)}
+
+/* ---------- title page ---------- */
+.frontis{text-align:center;padding-block:44px 20px}
+.frontis .eyebrow{font-family:var(--display);letter-spacing:.24em;font-size:.82rem;color:var(--rubric)}
+.frontis h1{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(2.6rem,9vw,4.6rem);line-height:.95;margin:.25em 0 .15em;
+  letter-spacing:.01em;text-wrap:balance;
+}
+.frontis h1 span{display:block;font-size:.42em;letter-spacing:.3em;color:var(--ink-soft);margin-top:.35em}
+.frontis .lede{font-family:var(--fell);font-style:italic;font-size:1.2rem;color:var(--ink-soft);max-width:34em;margin:0 auto}
+.seal{display:block;margin:0 auto 6px}
+.quick{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:26px}
+
+/* ---------- chapters ---------- */
+.chapter{padding-top:40px}
+.ch-head{text-align:center;margin-bottom:22px}
+.ch-num{font-family:var(--display);letter-spacing:.2em;font-size:.82rem;color:var(--rubric)}
+.ch-head h2{
+  font-family:var(--display);font-weight:400;font-size:clamp(1.9rem,6vw,2.6rem);
+  line-height:1.05;margin:.12em 0 .2em;text-wrap:balance;
+}
+.ch-head p{font-family:var(--fell);font-style:italic;color:var(--ink-soft);margin:0 auto;max-width:32em}
+.orn{display:block;margin:14px auto 0;color:var(--gilt)}
+h3{
+  font-family:var(--display);font-weight:400;font-size:1.35rem;letter-spacing:.02em;
+  margin:1.6em 0 .4em;line-height:1.2;color:var(--ink);text-wrap:balance;
+}
+h3::before{content:"";display:inline-block;width:.5em;height:.5em;background:var(--rubric);transform:rotate(45deg) translateY(-.12em);margin-right:.55em}
+h4{font-family:var(--fell);font-size:1.12rem;margin:1.1em 0 .2em;color:var(--rubric);font-weight:400}
+p{margin:.5em 0 .9em}
+.drop::first-letter{
+  font-family:var(--display);float:left;font-size:3.9em;line-height:.8;
+  padding:.08em .12em 0 0;color:var(--rubric);
+}
+.formula{
+  font-family:var(--fell);font-size:1.15rem;color:var(--ink);
+  background:var(--paper-hi);border:1px solid var(--line);border-radius:6px;
+  padding:2px 10px;white-space:nowrap;display:inline-block;
+}
+.term{font-variant:small-caps;letter-spacing:.04em;font-weight:600}
+.muted{color:var(--ink-soft)}
+ul.plain{padding-left:1.1em;margin:.4em 0 1em}
+ul.plain li{margin:.25em 0}
+ul.plain li::marker{color:var(--rubric)}
+
+/* panels */
+.panel{
+  background:linear-gradient(180deg,var(--paper-hi),var(--paper-2));
+  border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:18px 0;
+  box-shadow:var(--shadow);
+}
+.panel > :first-child{margin-top:0}
+.panel > :last-child{margin-bottom:0}
+.pending{
+  border:1.5px dashed var(--rubric-soft);border-radius:8px;
+  background:rgba(142,44,29,.05);padding:10px 14px;margin:14px 0;font-size:.97rem;
+}
+.pending .tag{
+  display:inline-block;font-family:var(--display);font-size:.72rem;letter-spacing:.14em;
+  color:var(--paper-hi);background:var(--rubric);border-radius:3px;padding:1px 7px 0;margin-right:6px;vertical-align:2px;
+}
+.pending p{margin:.3em 0 0}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--paper-hi);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-variant-numeric:lining-nums tabular-nums}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid rgba(201,173,120,.55);vertical-align:top}
+th{font-family:var(--display);font-weight:400;letter-spacing:.06em;font-size:.88rem;color:var(--rubric);background:var(--paper-2);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.c,th.c{text-align:center}
+.asc td:first-child{font-family:var(--display);color:var(--ink-soft);width:3.2em}
+.asc tr.milestone td{background:rgba(154,113,36,.1)}
+.asc .gain{display:flex;flex-wrap:wrap;gap:5px}
+.pill{
+  display:inline-block;font-size:.84rem;line-height:1.35;border-radius:999px;padding:1px 9px;
+  border:1px solid var(--line);background:var(--paper);white-space:nowrap;
+}
+.pill.hab{background:var(--ink);color:var(--paper-hi);border-color:var(--ink)}
+.pill.atr{background:rgba(142,44,29,.12);border-color:var(--rubric-soft);color:var(--rubric)}
+.pill.per{background:rgba(61,106,90,.13);border-color:rgba(61,106,90,.5);color:var(--verdigris)}
+.pill.prof{background:rgba(154,113,36,.16);border-color:rgba(154,113,36,.5);color:#6f5117}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0;font-size:.92rem}
+.asc-filter{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.asc tr.dim{opacity:.28}
+
+/* stats grid */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
+.stat{
+  border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--paper-hi);
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:4px;
+}
+.stat .k{font-family:var(--display);letter-spacing:.08em;color:var(--rubric);font-size:.92rem}
+.stat .f{font-family:var(--fell);font-size:1.2rem;line-height:1.25}
+.stat .d{font-size:.93rem;color:var(--ink-soft);line-height:1.4}
+
+/* ability types */
+.types{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin:14px 0}
+.type{border-top:3px solid var(--ink);background:var(--paper-hi);border-radius:0 0 10px 10px;padding:12px 14px;box-shadow:var(--shadow)}
+.type b{font-family:var(--display);font-weight:400;font-size:1.1rem;display:block;letter-spacing:.03em}
+.type small{display:block;font-family:var(--fell);font-style:italic;color:var(--rubric);font-size:.95rem;margin-bottom:4px}
+.type p{margin:0;font-size:.97rem}
+
+/* d12 tiers */
+.tiers{display:grid;gap:10px;margin:16px 0}
+.tier{display:grid;grid-template-columns:86px 1fr;gap:14px;align-items:center;border-radius:10px;padding:12px 14px;border:1px solid var(--line);background:var(--paper-hi);box-shadow:var(--shadow)}
+.tier .range{font-family:var(--display);font-size:1.5rem;text-align:center;line-height:1;font-variant-numeric:lining-nums}
+.tier .range small{display:block;font-size:.66rem;letter-spacing:.14em;color:var(--ink-soft);margin-top:4px}
+.tier b{font-family:var(--display);font-weight:400;font-size:1.15rem;letter-spacing:.04em}
+.tier p{margin:.1em 0 0;font-size:.97rem}
+.tier .bar{height:6px;border-radius:3px;background:var(--paper-3);margin-top:8px;overflow:hidden}
+.tier .bar i{display:block;height:100%}
+.t-crit{border-color:var(--gilt);background:linear-gradient(135deg,#f7e8bf,var(--paper-hi))}
+.t-crit .range,.t-crit b{color:var(--gilt)}
+.t-crit .bar i{width:100%;background:var(--gilt)}
+.t-hit .range,.t-hit b{color:var(--verdigris)}
+.t-hit .bar i{width:50%;background:var(--verdigris)}
+.t-med .range,.t-med b{color:var(--ink-faint)}
+.t-med .bar i{width:25%;background:var(--ink-faint)}
+
+.example{border-left:3px solid var(--gilt);padding:4px 0 4px 16px;margin:16px 0;font-style:italic;color:var(--ink-soft)}
+.example strong{font-style:normal;color:var(--ink)}
+.calc-line{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-style:normal;margin-top:6px;font-variant-numeric:lining-nums}
+.calc-line span{background:var(--paper-hi);border:1px solid var(--line);border-radius:6px;padding:0 8px;color:var(--ink)}
+.calc-line em{color:var(--ink-faint);font-style:normal}
+.calc-line .total{background:var(--ink);color:var(--paper-hi);border-color:var(--ink);font-weight:600}
+
+/* pets */
+.pet-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:14px 0}
+.card{background:var(--paper-hi);border:1px solid var(--line);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow)}
+.card h4{margin:0 0 .2em}
+.card .act{font-family:var(--display);font-size:.74rem;letter-spacing:.12em;color:var(--paper-hi);background:var(--verdigris);border-radius:3px;padding:1px 7px 0;display:inline-block;margin-bottom:6px}
+.card p{margin:0;font-size:.98rem}
+
+/* pericias */
+.per-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:12px 0}
+.counter{font-family:var(--display);letter-spacing:.06em;font-size:1rem}
+.counter b{color:var(--rubric);font-weight:400;font-size:1.3rem}
+.per-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.per{
+  font:inherit;font-size:1rem;color:var(--ink);text-align:left;cursor:pointer;
+  background:var(--paper-hi);border:1px solid var(--line);border-radius:8px;padding:9px 12px;
+  display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .1s;
+}
+.per:hover{border-color:var(--ink-faint)}
+.per:active{transform:scale(.98)}
+.per .box{flex:none;width:16px;height:16px;border:1.5px solid var(--ink-faint);transform:rotate(45deg);border-radius:2px;transition:background .15s}
+.per[aria-pressed="true"]{background:var(--ink);color:var(--paper-hi);border-color:var(--ink)}
+.per[aria-pressed="true"] .box{background:var(--gilt);border-color:var(--gilt)}
+.per:disabled{opacity:.45;cursor:not-allowed}
+
+/* buttons */
+.btn{
+  font-family:var(--display);font-size:.98rem;letter-spacing:.05em;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:999px;padding:8px 16px;cursor:pointer;text-decoration:none;
+  border:1px solid var(--ink);background:var(--ink);color:var(--paper-hi);
+  transition:transform .1s,background .15s;
+}
+.btn:hover{background:#4a3421}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--paper-2)}
+.btn.small{font-size:.86rem;padding:5px 12px}
+.btn.rub{background:var(--rubric);border-color:var(--rubric)}
+.btn.rub:hover{background:#a3382a}
+
+/* ---------- ficha ---------- */
+.sheet{background:linear-gradient(180deg,var(--paper-hi),var(--paper-2));border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:var(--shadow)}
+.sheet-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:16px}
+.field label,.lbl{display:block;font-family:var(--display);letter-spacing:.1em;font-size:.8rem;color:var(--rubric)}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--paper);overflow:hidden}
+.stepper button{width:40px;height:40px;border:0;background:none;font-size:1.3rem;color:var(--ink);cursor:pointer;font-family:var(--body)}
+.stepper button:hover{background:var(--paper-2)}
+.stepper input{width:54px;height:40px;text-align:center;border:0;background:none;font:inherit;font-size:1.3rem;font-weight:600;color:var(--ink);font-variant-numeric:lining-nums;-moz-appearance:textfield}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.attrs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (min-width:640px){.attrs{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.attr{
+  border:1px solid var(--line);border-radius:10px;background:var(--paper);text-align:center;
+  padding:8px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+.attr label{font-family:var(--display);letter-spacing:.1em;font-size:.82rem;color:var(--ink-soft)}
+.attr input{
+  width:100%;max-width:70px;text-align:center;font:inherit;font-size:1.6rem;font-weight:600;
+  color:var(--ink);background:transparent;border:0;border-bottom:1px dashed var(--line);padding:0;
+  font-variant-numeric:lining-nums;-moz-appearance:textfield;
+}
+.attr .mod{
+  font-family:var(--display);font-size:1rem;min-width:46px;border-radius:999px;padding:0 8px;
+  background:var(--ink);color:var(--paper-hi);font-variant-numeric:lining-nums;
+}
+.attr .mod.na{background:transparent;color:var(--rubric);border:1px dashed var(--rubric-soft);font-size:.72rem;letter-spacing:.06em;padding:2px 6px}
+.sheet h4{font-family:var(--display);color:var(--ink);font-size:1.05rem;letter-spacing:.06em;margin:20px 0 8px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.outs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.out{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column}
+.out .lbl{font-size:.74rem}
+.out .v{font-size:1.4rem;font-weight:600;line-height:1.2;font-variant-numeric:lining-nums tabular-nums}
+.out .v small{font-size:.8rem;font-weight:400;color:var(--ink-soft)}
+.out .h{font-size:.82rem;color:var(--ink-soft);line-height:1.3}
+.out .v.na{font-size:.95rem;color:var(--rubric);font-style:italic;font-weight:400}
+.out button{margin-top:6px;align-self:flex-start}
+.chosen{display:flex;flex-wrap:wrap;gap:6px}
+.note{font-size:.88rem;color:var(--ink-soft);font-style:italic;margin:8px 0 0}
+.sample-flag{font-family:var(--fell);font-style:italic;font-size:.92rem;color:var(--ink-soft)}
+
+/* ---------- roller drawer ---------- */
+.fab{
+  position:fixed;z-index:45;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--rubric);color:var(--paper-hi);border:0;border-radius:999px;
+  padding:12px 18px 12px 14px;font-family:var(--display);font-size:1rem;letter-spacing:.06em;
+  box-shadow:0 10px 24px -8px rgba(90,25,10,.7);cursor:pointer;
+}
+.fab:hover{background:#a3382a}
+.totop{
+  position:fixed;z-index:44;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper-hi);
+  color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.totop.show{opacity:1;pointer-events:auto}
+.scrim{position:fixed;inset:0;background:rgba(40,24,10,.38);z-index:70;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;z-index:80;left:0;right:0;bottom:0;
+  max-height:88vh;overflow:auto;overscroll-behavior:contain;
+  background:var(--paper);border-top:1px solid var(--line);border-radius:18px 18px 0 0;
+  box-shadow:0 -20px 40px -20px rgba(40,24,10,.6);
+  padding:8px 16px calc(20px + env(safe-area-inset-bottom,0px));
+  transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);
+  visibility:hidden;
+}
+.drawer.open{transform:none;visibility:visible}
+@media (min-width:760px){
+  .drawer{left:auto;top:0;width:420px;max-height:none;border-radius:0;border-top:0;border-left:1px solid var(--line);
+    transform:translateX(105%);padding-top:calc(16px + env(safe-area-inset-top,0px))}
+  .grab{display:none}
+}
+.grab{width:44px;height:5px;border-radius:3px;background:var(--paper-3);margin:4px auto 10px}
+.dr-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dr-head h2{font-family:var(--display);font-weight:400;font-size:1.6rem;margin:0}
+.close{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--paper-hi);cursor:pointer;color:var(--ink);font-size:1.2rem;line-height:1}
+.result{
+  margin:12px 0;border:1px solid var(--line);border-radius:12px;
+  background:radial-gradient(ellipse at 50% 0%,var(--paper-hi),var(--paper-2));
+  text-align:center;padding:16px 12px;min-height:150px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;
+}
+.result .what{font-family:var(--display);letter-spacing:.12em;font-size:.8rem;color:var(--rubric)}
+.result .big{font-family:var(--display);font-size:3.6rem;line-height:1;font-variant-numeric:lining-nums}
+.result .big.roll{animation:pop .45s ease}
+@keyframes pop{0%{transform:scale(.6) rotate(-12deg);opacity:.2}60%{transform:scale(1.12) rotate(3deg);opacity:1}100%{transform:none}}
+.result .brk{font-size:.95rem;color:var(--ink-soft);font-variant-numeric:lining-nums}
+.result .six{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%;max-width:300px;margin-top:4px}
+.result .six div{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:4px}
+.result .six small{display:block;font-family:var(--display);font-size:.72rem;letter-spacing:.1em;color:var(--ink-soft)}
+.result .six b{font-size:1.4rem;font-variant-numeric:lining-nums}
+.tierchip{font-family:var(--display);letter-spacing:.1em;font-size:.95rem;border-radius:999px;padding:2px 14px;color:var(--paper-hi)}
+.tierchip.crit{background:var(--gilt)} .tierchip.hit{background:var(--verdigris)} .tierchip.med{background:var(--ink-faint)}
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.preset{
+  font:inherit;text-align:left;cursor:pointer;color:var(--ink);
+  background:var(--paper-hi);border:1px solid var(--line);border-radius:10px;padding:10px 12px;line-height:1.25;
+}
+.preset:hover{border-color:var(--ink-faint)}
+.preset b{font-family:var(--display);font-weight:400;display:block;font-size:1.02rem;letter-spacing:.03em}
+.preset span{font-size:.88rem;color:var(--ink-soft);font-variant-numeric:lining-nums}
+.preset.main{grid-column:1/-1;background:var(--ink);color:var(--paper-hi);border-color:var(--ink)}
+.preset.main span{color:var(--paper-3)}
+.custom{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.dice{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.die{font:inherit;font-family:var(--display);cursor:pointer;min-width:52px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--paper-hi);color:var(--ink);font-variant-numeric:lining-nums}
+.die[aria-pressed="true"]{background:var(--ink);color:var(--paper-hi);border-color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.hist{list-style:none;margin:8px 0 0;padding:0;font-size:.95rem}
+.hist li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px dotted var(--line);font-variant-numeric:lining-nums}
+.hist li b{font-weight:600}
+.hist .t{color:var(--ink-soft)}
+
+/* ---------- conceitos ---------- */
+.concepts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:14px 0}
+.concept{background:var(--paper-hi);border:1px solid var(--line);border-radius:10px;padding:10px 12px;box-shadow:var(--shadow)}
+.concept b{font-family:var(--display);font-weight:400;font-size:1.05rem;letter-spacing:.03em;display:block;color:var(--rubric)}
+.concept p{margin:.2em 0 0;font-size:.95rem;line-height:1.4}
+.neq{text-align:center;font-family:var(--display);letter-spacing:.08em;color:var(--ink-soft);margin:6px 0 14px;font-size:1rem}
+.neq b{color:var(--rubric);font-weight:400;padding:0 .35em}
+.tree{font-family:var(--fell);background:var(--paper-hi);border:1px solid var(--line);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow);margin:14px 0;line-height:1.5}
+.tree ul{list-style:none;margin:0;padding-left:1.1em;border-left:1px solid var(--line)}
+.tree > ul{border-left:0;padding-left:0}
+.tree li{position:relative;padding-left:.2em}
+.tree ul ul li::before{content:"";position:absolute;left:-1.1em;top:.8em;width:.8em;border-top:1px solid var(--line)}
+.tree .k{font-family:var(--display);letter-spacing:.05em;font-size:.95rem}
+.tree small{color:var(--ink-soft);font-style:italic}
+.tbd{color:var(--ink-faint);font-style:italic}
+
+/* ---------- espécies / culturas ---------- */
+.fchips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.fchips::-webkit-scrollbar{display:none}
+.fchips button{flex:none;font:inherit;font-family:var(--display);font-size:.86rem;letter-spacing:.03em;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:var(--paper-hi);color:var(--ink-soft);cursor:pointer;white-space:nowrap}
+.fchips button[aria-pressed="true"]{background:var(--ink);color:var(--paper-hi);border-color:var(--ink)}
+.sp-cat{font-family:var(--display);font-size:.92rem;letter-spacing:.1em;color:var(--rubric);margin:16px 0 6px}
+.sp-cat small{display:block;font-family:var(--body);font-size:.85rem;letter-spacing:0;color:var(--ink-soft);font-style:italic}
+.sp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.sp{font:inherit;text-align:left;cursor:pointer;background:var(--paper-hi);border:1px solid var(--line);border-radius:8px;padding:7px 12px;color:var(--ink);line-height:1.25}
+.sp:hover{border-color:var(--ink-faint)}
+.sp small{display:block;font-size:.8rem;color:var(--ink-soft)}
+.dl{display:grid;grid-template-columns:minmax(0,10.5em) minmax(0,1fr);gap:5px 12px;margin:6px 0 12px;font-size:.97rem}
+.dl dt{font-family:var(--display);font-size:.8rem;letter-spacing:.06em;color:var(--rubric);padding-top:.2em}
+.dl dd{margin:0;min-width:0;overflow-wrap:anywhere}
+@media (max-width:420px){.dl{grid-template-columns:1fr;gap:0}.dl dd{margin-bottom:6px}}
+.info-h{font-family:var(--display);font-size:.9rem;letter-spacing:.1em;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:3px;margin:16px 0 6px}
+.cult-grid{display:grid;gap:10px;align-items:start;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin:14px 0}
+.cult{background:var(--paper-hi);border:1px solid var(--line);border-radius:10px;padding:12px 14px;box-shadow:var(--shadow)}
+.cult h4{margin:0 0 .3em;color:var(--ink);font-family:var(--display);letter-spacing:.04em}
+.cult .none{font-size:.93rem}
+.rc{border-top:1px dotted var(--line);padding:7px 0 2px}
+.rc:first-of-type{border-top:0;padding-top:2px}
+.rc b{font-weight:600}
+.rc p{margin:.1em 0 .2em;font-size:.94rem;line-height:1.4}
+.rc .meta{display:flex;flex-wrap:wrap;gap:5px}
+.pill.cul{background:rgba(61,106,90,.13);border-color:rgba(61,106,90,.5);color:var(--verdigris)}
+.pill.tbd{border-style:dashed;color:var(--ink-faint);font-style:italic}
+.formula-stack{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;margin:14px 0;font-family:var(--display);letter-spacing:.04em}
+.formula-stack span{background:var(--paper-hi);border:1px solid var(--line);border-radius:8px;padding:4px 10px;box-shadow:var(--shadow)}
+.formula-stack span.neg{color:var(--rubric);border-color:var(--rubric-soft)}
+.formula-stack span.tot{background:var(--ink);color:var(--paper-hi);border-color:var(--ink)}
+.formula-stack em{font-style:normal;color:var(--ink-faint)}
+.props{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:12px 0}
+.prop{background:var(--paper-hi);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.prop b{font-family:var(--display);font-weight:400;letter-spacing:.04em;display:block}
+.prop p{margin:0;font-size:.94rem;line-height:1.4}
+a.pill{text-decoration:none;color:inherit}
+.wtbl td:first-child{font-weight:600;white-space:nowrap}
+.wtbl .pl{display:flex;flex-wrap:wrap;gap:4px}
+
+/* ---------- ficha: controles ---------- */
+.idgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+.txt,.sel{
+  width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--paper);
+  border:1px solid var(--line);border-radius:8px;padding:7px 10px;min-height:40px;
+}
+.sel{appearance:none;-webkit-appearance:none;padding-right:30px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235e4731' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center}
+.sel:disabled{opacity:.55}
+textarea.txt{min-height:64px;resize:vertical}
+.field .txt,.field .sel{margin-top:3px}
+.hcards{display:grid;gap:10px}
+.hcard{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.hrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hrow + .hrow{margin-top:8px}
+.hrow .txt.name{flex:1 1 160px;font-weight:600}
+.hsel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;width:100%}
+@media (max-width:420px){.hsel{grid-template-columns:1fr 1fr}.hsel .sel:last-child{grid-column:1/-1}}
+.hsel .sel{font-size:.92rem;min-height:36px;padding:5px 26px 5px 8px}
+.x{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--paper-hi);color:var(--ink-soft);cursor:pointer;font-size:1.1rem;line-height:1}
+.x:hover{color:var(--rubric);border-color:var(--rubric-soft)}
+.ctr{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ctr .cnt{font-family:var(--display);font-size:1.15rem;font-variant-numeric:lining-nums;min-width:3.2em}
+.ctr .cnt small{font-size:.75rem;color:var(--ink-soft);letter-spacing:.05em}
+.pips{display:inline-flex;gap:4px;flex-wrap:wrap;max-width:100%}
+.pip{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--ink-soft);background:transparent}
+.pip.on{background:var(--ink);border-color:var(--ink)}
+.ctr .btns{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.hcard details{margin-top:8px}
+.hcard summary{cursor:pointer;font-family:var(--display);font-size:.85rem;letter-spacing:.06em;color:var(--ink-soft)}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-top:8px}
+.dgrid .full{grid-column:1/-1}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.switch{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch .tr{width:44px;height:26px;border-radius:999px;background:var(--paper-3);border:1px solid var(--line);position:relative;transition:background .15s;flex:none}
+.switch .tr::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--paper-hi);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
+.switch input:checked + .tr{background:var(--rubric)}
+.switch input:checked + .tr::after{transform:translateX(18px)}
+.switch input:focus-visible + .tr{outline:2px solid var(--rubric);outline-offset:2px}
+.state-box{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.state-box.on{border-color:var(--rubric-soft);background:rgba(142,44,29,.06)}
+.warn{color:var(--rubric);font-size:.9rem}
+.list{list-style:none;margin:8px 0 0;padding:0}
+.list li{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:6px 0;border-bottom:1px dotted var(--line)}
+.list li .x{width:32px;height:32px;font-size:1rem}
+.list .nm{min-width:0;overflow-wrap:anywhere}
+.list .nm small{color:var(--ink-soft);display:block;font-size:.85rem}
+.addrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.addrow .txt,.addrow .sel{flex:1 1 150px;width:auto}
+.test{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px}
+.test .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.preview{font-family:var(--fell);font-size:1.02rem;margin:10px 0;line-height:1.4}
+.result .calc-line{justify-content:center;font-size:.95rem}
+
+footer{text-align:center;color:var(--ink-faint);font-family:var(--fell);font-style:italic;padding:40px 0 10px;font-size:.95rem}
+.flash{animation:flash 1.6s ease}
+@keyframes flash{0%,40%{background:rgba(154,113,36,.25);border-radius:8px}100%{background:transparent}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-d12" viewBox="0 0 24 24"><path d="M12 2 21.5 8.9 17.9 20H6.1L2.5 8.9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.2 16.4 9.4 14.7 14.6H9.3L7.6 9.4Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 2v4.2M21.5 8.9l-5.1.5M17.9 20l-3.2-5.4M6.1 20l3.2-5.4M2.5 8.9l5.1.5" stroke="currentColor" stroke-width="1.2"/></symbol>
+    <symbol id="i-orn" viewBox="0 0 160 16"><path d="M0 8h60M100 8h60" stroke="currentColor" stroke-width="1"/><path d="M80 1 87 8 80 15 73 8Z" fill="currentColor"/><circle cx="66" cy="8" r="2" fill="currentColor"/><circle cx="94" cy="8" r="2" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<header class="top" id="top">
+  <div class="top-row">
+    <a class="brand" href="#inicio" aria-label="Ruptura do Divino, início">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="#8e2c1d" stroke-width="1.5"/><path d="M20 5 L23 17 L20 35 L17 17 Z" fill="#2e2013"/><path d="M21.5 11 L26 16 L22 22" fill="none" stroke="#f1e4c5" stroke-width="1.4"/><circle cx="20" cy="20" r="13" fill="none" stroke="#9a7124" stroke-width=".8" stroke-dasharray="2 3"/></svg>
+      <span class="brand-txt"><span class="brand-name">Ruptura do Divino</span><span class="brand-sub">Livro do Jogador</span></span>
+    </a>
+    <div class="search-wrap" id="searchWrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="#5e4731" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="#5e4731" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="q" type="search" placeholder="Buscar regra, perícia..." autocomplete="off" aria-label="Buscar no livro">
+      <div class="results" id="results" hidden></div>
+    </div>
+    <button class="icon-btn" id="searchToggle" aria-label="Abrir busca">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <nav class="chips" id="chips" aria-label="Capítulos"></nav>
+</header>
+
+<div class="shell">
+  <aside class="toc" aria-label="Sumário">
+    <p class="toc-label">Sumário</p>
+    <ol id="toc"></ol>
+  </aside>
+
+  <main>
+    <div class="wrap">
+
+      <section class="frontis" id="inicio" data-ch="Início">
+        <svg class="seal" width="84" height="84" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="none" stroke="#8e2c1d" stroke-width="1"/><circle cx="20" cy="20" r="15.5" fill="none" stroke="#9a7124" stroke-width=".6" stroke-dasharray="1.5 2"/><path d="M20 4 L23.2 17 L20 36 L16.8 17 Z" fill="#2e2013"/><path d="M21.6 10 L26.5 15.8 L22.2 22.5 L25 27" fill="none" stroke="#f1e4c5" stroke-width="1.2"/></svg>
+        <div class="eyebrow">Livro do Jogador</div>
+        <h1>Ruptura do Divino<span>Sistema de RPG</span></h1>
+        <p class="lede">Um RPG sem classes. Três verbos divinos definem seus poderes, e eles se moldam ao seu jeito de jogar até formar a sua própria classe.</p>
+        <div class="quick">
+          <a class="btn" href="#sistema">Começar a ler</a>
+          <a class="btn ghost" href="#ficha">Montar ficha</a>
+          <button class="btn ghost" type="button" data-open-roller>Rolar dados</button>
+        </div>
+      </section>
+
+      <!-- I -->
+      <section class="chapter" id="sistema" data-ch="O Sistema" data-n="I">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo I</div>
+          <h2>O Sistema</h2>
+          <p>O que é a Ruptura do Divino e como criar seu personagem.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="Os três verbos divinos" id="verbos">
+          <p class="drop"><strong>Ruptura do Divino</strong> é um RPG sem classes. Cada jogador escolhe <strong>três verbos</strong> que representam habilidades divinas, poderes extraordinários e misteriosos. Esses poderes se adaptam à sua jogabilidade e, juntos, formam a sua própria classe.</p>
+        </div>
+
+        <div data-s="Princípio fundamental: espécie, cultura, habilidade e recurso de cultura" id="principio">
+          <h3>Princípio fundamental</h3>
+          <p>O sistema separa quatro conceitos. Eles <strong>não são sinônimos</strong> e nunca se confundem.</p>
+          <div class="concepts">
+            <div class="concept"><b>Espécie</b><p>O que o personagem é, biológica ou sobrenaturalmente.</p></div>
+            <div class="concept"><b>Cultura</b><p>O que ele aprendeu, viveu e herdou da sua sociedade.</p></div>
+            <div class="concept"><b>Habilidade</b><p>Uma capacidade própria, definida pelas regras do sistema.</p></div>
+            <div class="concept"><b>Recurso de Cultura</b><p>Uma vantagem que vem especificamente da cultura do personagem.</p></div>
+          </div>
+          <p class="neq">Espécie<b>&ne;</b>Cultura<b>&ne;</b>Recurso de Cultura<b>&ne;</b>Habilidade</p>
+          <div class="example">
+            <strong>Exemplo.</strong> Espécie: Elfo. Linhagem: Elfo Florestal. Cultura: Militar. Habilidades: definidas pelo sistema. Recursos de Cultura: treinamento militar, conhecimento de estratégias.
+            <br>A cultura <strong>não</strong> decide quais habilidades o personagem tem.
+          </div>
+        </div>
+
+        <div data-s="Estrutura do personagem" id="estrutura">
+          <h3>Estrutura do personagem</h3>
+          <div class="tree">
+            <ul><li><span class="k">Personagem</span>
+              <ul>
+                <li><a href="#atributos">Atributos</a> <small>e modificadores</small></li>
+                <li><a href="#especies">Espécie</a> <small>características biológicas</small>
+                  <ul><li><a href="#linhagens">Linhagem</a> <small>variação da espécie</small></li></ul></li>
+                <li><a href="#culturas">Cultura</a> <small>conhecimentos, costumes e experiências</small>
+                  <ul><li><a href="#recursos-cultura">Recursos de Cultura</a> <small>vantagens da cultura</small></li></ul></li>
+                <li><a href="#habilidades">Habilidades</a> <small>capacidades próprias do sistema</small></li>
+                <li><a href="#equipamento">Equipamento</a> <small>armas, armaduras e escudo</small></li>
+                <li><a href="#itens">Itens e artefatos</a></li>
+                <li><a href="#estados">Estados</a> <small>como Desgastado</small></li>
+              </ul></li></ul>
+          </div>
+          <p class="muted" style="font-size:.97rem">D&amp;D, Tormenta e Pathfinder servem só de referência para o acervo inicial de armas, proteções, espécies e conceitos. As regras deste livro têm prioridade.</p>
+        </div>
+
+        <div data-s="Como começar" id="comecar">
+          <h3>Como começar</h3>
+          <ul class="plain">
+            <li>Escolha <strong>espécie</strong>, <strong>linhagem</strong> (se houver) e <strong>cultura</strong>. Qualquer combinação é permitida (Capítulos III e IV).</li>
+            <li>Escolha seus <strong>três verbos</strong> (as três habilidades iniciais).</li>
+            <li>Role <span class="formula">1d8 + 8</span> para cada um dos seis atributos principais. Cada valor fica entre 9 e 16.</li>
+            <li>Escolha <strong>três perícias iniciais</strong> (Capítulo XIV).</li>
+            <li>Calcule vida, deslocamento, vigor, saúde mental e carga (Capítulo VII), ou use a <a href="#ficha">Ficha</a>.</li>
+          </ul>
+          <div class="quick" style="justify-content:flex-start;margin-top:10px">
+            <button class="btn small rub" type="button" data-roll="six">Rolar os seis atributos</button>
+          </div>
+        </div>
+
+        <div class="panel" data-s="Regras a definir" id="pendencias">
+          <h4 style="margin-top:0">Regras a definir</h4>
+          <p class="muted" style="font-size:.97rem">Pontos que o texto original ainda não resolve. Cada um aparece marcado no capítulo correspondente.</p>
+          <ul class="plain" id="pendList"></ul>
+        </div>
+      </section>
+
+      <!-- II -->
+      <section class="chapter" id="atributos" data-ch="Atributos" data-n="II">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo II</div>
+          <h2>Atributos</h2>
+          <p>Os seis pilares de todo personagem.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="Os seis atributos principais" id="seis">
+          <p>São seis atributos principais: <span class="term">Força</span>, <span class="term">Destreza</span>, <span class="term">Constituição</span>, <span class="term">Inteligência</span>, <span class="term">Sabedoria</span> e <span class="term">Carisma</span>. O valor inicial de cada um é definido por <span class="formula">1d8 + 8</span>.</p>
+        </div>
+
+        <div data-s="Tabela de modificadores" id="modificadores">
+          <h3>Tabela de modificadores</h3>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Valor do atributo</th><th class="c">Modificador</th></tr></thead>
+              <tbody id="modBody"></tbody>
+            </table>
+          </div>
+          <p class="muted" style="font-size:.97rem">O modificador é calculado sozinho a partir do valor, e a ficha nunca pede que você o digite. Os valores 9 e 10 dão modificador 0.</p>
+          <div class="pending" data-pend="Modificador para atributos acima de 20" data-pend-link="modificadores"><span class="tag">Regra a definir</span>A tabela termina no 20, mas os aumentos de atributo (níveis 5, 10, 15 e 20) podem levar um valor acima disso.</div>
+        </div>
+
+        <div data-s="Aumento no valor de atributos" id="aumento">
+          <h3>Aumento no valor de atributos</h3>
+          <p>A cada <strong>5 níveis</strong> (níveis 5, 10, 15 e 20, marcados na tabela de Ascensão), o personagem pode aumentar o valor de um atributo principal. O valor do aumento é igual à <strong>proficiência daquele nível</strong>.</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Nível</th><th class="c">Aumento em um atributo</th></tr></thead>
+              <tbody>
+                <tr><td>5</td><td class="c">+2</td></tr>
+                <tr><td>10</td><td class="c">+3</td></tr>
+                <tr><td>15</td><td class="c">+3</td></tr>
+                <tr><td>20</td><td class="c">+5</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- III -->
+      <section class="chapter" id="especies" data-ch="Espécies" data-n="III">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo III</div>
+          <h2>Espécies e Linhagens</h2>
+          <p>O que o personagem é, de nascença ou de natureza.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="O que a espécie define" id="especie-define">
+          <p class="drop">A <strong>espécie</strong> representa a natureza biológica, física ou sobrenatural do personagem. Ela pode definir anatomia, aparência, tamanho, peso, altura, longevidade, maturidade, habitat, deslocamento, sentidos, características físicas, resistências, vulnerabilidades, imunidades, características sobrenaturais e raciais, linhagens e interações com o desgaste.</p>
+          <p>A espécie <strong>não precisa dar bônus de atributo</strong>. O sistema diferencia as espécies pelas características próprias de cada uma, não por modificadores numéricos.</p>
+          <div class="pending" data-pend="Como o deslocamento da espécie se combina com 10 + mod. Destreza" data-pend-link="especie-define"><span class="tag">Regra a definir</span>A espécie pode definir deslocamento, mas o Capítulo VII já calcula o deslocamento como 10 + mod. Destreza. Falta dizer se o valor da espécie substitui, soma ou modifica esse cálculo.</div>
+        </div>
+
+        <div data-s="Linhagens" id="linhagens">
+          <h3>Linhagens</h3>
+          <p>Uma espécie pode ter linhagens diferentes. A linhagem pode modificar aparência, sentidos, resistências, vulnerabilidades, deslocamento, características raciais, afinidades e características sobrenaturais. Ela também não precisa alterar atributos.</p>
+          <div class="tree">
+            <ul><li><span class="k">Elfo</span>
+              <ul><li>Elfo Solar</li><li>Elfo Lunar</li><li>Elfo Florestal</li><li>Elfo Sombrio</li><li>Elfo Astral</li><li>Elfo Marinho</li></ul>
+            </li></ul>
+          </div>
+        </div>
+
+        <div data-s="Biblioteca de espécies" id="biblioteca-especies">
+          <h3>Biblioteca de espécies</h3>
+          <p>Acervo inicial de referência, que pode crescer. Toque em uma espécie para ver a ficha dela.</p>
+          <div class="fchips" id="spFilter" role="group" aria-label="Filtrar por categoria"></div>
+          <div id="spList"></div>
+          <div class="pending" data-pend="Características de cada espécie" data-pend-link="biblioteca-especies"><span class="tag">Regra a definir</span>As espécies ainda só têm nome e categoria. Tamanho, sentidos, anatomia, resistências, interação com o desgaste e os demais campos da ficha de cada uma estão a definir.</div>
+          <div class="pending" data-pend="Linhagens cromáticas, metálicas, gemadas, celestiais e infernais" data-pend-link="biblioteca-especies"><span class="tag">Regra a definir</span>A lista cita linhagens cromáticas, metálicas e gemadas entre os Dracônicos, e linhagens celestiais e infernais nas suas categorias, mas não diz a quais espécies elas pertencem nem quais são.</div>
+        </div>
+      </section>
+
+      <!-- IV -->
+      <section class="chapter" id="culturas" data-ch="Culturas" data-n="IV">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo IV</div>
+          <h2>Culturas e Recursos de Cultura</h2>
+          <p>O que o personagem aprendeu, e as vantagens que isso traz.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="O que é cultura" id="cultura-o-que">
+          <p class="drop">A <strong>cultura</strong> é independente da espécie. Ela representa conhecimentos, costumes, tradições, educação, treinamento, experiência social, profissão tradicional, religião, tecnologia, estratégias e o conhecimento regional, histórico e de certos ambientes.</p>
+          <p>Qualquer espécie pode ter qualquer cultura:</p>
+          <div class="legend" style="margin-bottom:12px">
+            <span class="pill">Elfo + Militar</span><span class="pill">Orc + Acadêmica</span><span class="pill">Humano + Marítima</span><span class="pill">Anão + Mercantil</span>
+          </div>
+        </div>
+
+        <div data-s="Recurso de Cultura" id="recursos-cultura">
+          <h3>Recursos de Cultura</h3>
+          <p>O <strong>Recurso de Cultura</strong> é uma mecânica própria, separada das habilidades. É uma vantagem que o personagem tem por causa da sua cultura: conhecimento, treinamento, experiência, técnica tradicional, familiaridade, costume, conhecimento regional ou profissional, influência social, estratégia ou conhecimento de um ambiente.</p>
+          <div class="vs props">
+            <div class="prop"><b>Habilidade</b><p>Capacidade definida pelas regras do sistema. Pode vir da espécie, do sistema ou do próprio personagem. Não é presumida como cultural.</p></div>
+            <div class="prop"><b>Recurso de Cultura</b><p>Vantagem que vem da cultura. Fica registrado à parte e nunca é classificado como habilidade.</p></div>
+          </div>
+          <ul class="plain">
+            <li>Um recurso cultural pode <strong>somar direto em uma rolagem</strong> quando a situação tem relação com a cultura (Capítulo X).</li>
+            <li>Quando tem limite de uso, o recurso tem <strong>contador próprio</strong>: <span class="formula">usos por dia = nível</span>.</li>
+            <li>Usar uma habilidade não gasta recurso cultural, e usar um recurso cultural não gasta habilidade.</li>
+          </ul>
+        </div>
+
+        <div data-s="Estrutura de um recurso de cultura" id="estrutura-recurso">
+          <h4>Estrutura de um recurso</h4>
+          <div class="example" style="font-style:normal">
+            <dl class="dl" style="margin:0">
+              <dt>Nome</dt><dd>Conhecimento Naval</dd>
+              <dt>Cultura</dt><dd>Marítima</dd>
+              <dt>Tipo</dt><dd>Recurso de Cultura</dd>
+              <dt>Efeito</dt><dd>+2 em uma rolagem relacionada a navegação</dd>
+              <dt>Usos</dt><dd>nível do personagem por dia</dd>
+              <dt>Recuperação</dt><dd>descanso longo</dd>
+            </dl>
+          </div>
+          <p class="muted" style="font-size:.95rem">Campos de todo recurso: nome, descrição, cultura, tipo, efeito, rolagens afetadas, bônus, nível requerido, usos por dia, tipo de recuperação e condições de uso.</p>
+        </div>
+
+        <div data-s="Culturas e seus recursos" id="lista-culturas">
+          <h3>Culturas</h3>
+          <div class="cult-grid" id="cultList"></div>
+          <div class="pending" data-pend="Recursos das demais culturas e valores em aberto" data-pend-link="lista-culturas"><span class="tag">Regra a definir</span>Só as culturas Marítima e Militar têm recursos definidos, e mesmo nelas a maioria ainda não tem bônus, limite de usos ou recuperação. As outras treze culturas estão com os recursos a definir.</div>
+        </div>
+      </section>
+
+      <!-- V -->
+      <section class="chapter" id="ascensao" data-ch="Ascensão" data-n="V">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo V</div>
+          <h2>Ascensão</h2>
+          <p>O que o personagem ganha a cada nível, do 1 ao 20.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="Tabela de ascensão" id="tabela-ascensao">
+          <p>Todo personagem começa com <strong>3 habilidades iniciais</strong> (seus três verbos). A tabela mostra o ganho de cada nível, a quantidade de <strong>pontos de esforço</strong> por dia e o bônus de <strong>proficiência</strong>.</p>
+          <div class="asc-filter" role="group" aria-label="Destacar na tabela">
+            <button class="btn small ghost" data-f="all" aria-pressed="true">Todos</button>
+            <button class="btn small ghost" data-f="hab" aria-pressed="false">Habilidades</button>
+            <button class="btn small ghost" data-f="atr" aria-pressed="false">Atributos</button>
+            <button class="btn small ghost" data-f="per" aria-pressed="false">Perícias</button>
+          </div>
+          <div class="tbl-wrap">
+            <table class="asc">
+              <thead><tr><th>Nv</th><th>Ascensão</th><th class="c">Esforço</th><th class="c">Prof.</th></tr></thead>
+              <tbody id="ascBody"></tbody>
+            </table>
+          </div>
+          <div class="legend">
+            <span class="pill">+10 infl.</span>
+            <span class="pill hab">Habilidade</span>
+            <span class="pill atr">Atributo +</span>
+            <span class="pill per">+1 perícia</span>
+            <span class="pill prof">Prof. na habilidade</span>
+          </div>
+          <div class="pending" data-pend="O que é influência (infl.)" data-pend-link="tabela-ascensao"><span class="tag">Regra a definir</span>A tabela dá <strong>+10 infl.</strong> em vários níveis, mas o texto não explica o que é influência nem para que ela serve.</div>
+        </div>
+      </section>
+
+      <!-- VI -->
+      <section class="chapter" id="esforco" data-ch="Esforço e Proficiência" data-n="VI">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo VI</div>
+          <h2>Esforço e Proficiência</h2>
+          <p>Os recursos que fazem o personagem ir além.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="Pontos de esforço" id="pontos-esforco">
+          <h3>Pontos de esforço</h3>
+          <p>Ao gastar um ponto de esforço, o jogador pode <strong>refazer uma ação</strong> cujo resultado não saiu como o desejado. O recurso é limitado e só volta com <strong>descanso</strong>.</p>
+          <p>O número na coluna Esforço da tabela de Ascensão é a quantidade de ações por dia que podem ser repetidas.</p>
+          <p>Também é possível gastar pontos de esforço para <strong>usar uma habilidade além do limite de usos</strong> do seu nível (<a href="#usos-diarios">usos por dia = nível</a>). Se o limite foi atingido, gaste esforço para usá-la mesmo assim.</p>
+          <p class="muted" style="font-size:.97rem">Como o esforço é contado por dia, a ficha o restaura no descanso longo, junto com os outros usos diários.</p>
+        </div>
+
+        <div data-s="Proficiência" id="proficiencia">
+          <h3>Proficiência</h3>
+          <p>A proficiência é somada nas <strong>rolagens de perícia</strong>. A partir do <strong>nível 5</strong>, ela também é somada ao valor de atributo usado nas <strong>habilidades</strong>.</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Níveis</th><th class="c">Proficiência</th></tr></thead>
+              <tbody>
+                <tr><td>1 a 4</td><td class="c"><b>+1</b></td></tr>
+                <tr><td>5 a 9</td><td class="c"><b>+2</b></td></tr>
+                <tr><td>10 a 15</td><td class="c"><b>+3</b></td></tr>
+                <tr><td>16 a 19</td><td class="c"><b>+4</b></td></tr>
+                <tr><td>20</td><td class="c"><b>+5</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div data-s="Perícias treinadas e melhorias" id="pericias-treino">
+          <h3>Perícias treinadas</h3>
+          <p>Uma perícia treinada vale <strong>+3</strong>.</p>
+          <p>Nos níveis <strong>8, 16 e 20</strong>, o personagem pode aprender uma nova perícia ou melhorar uma que já tem. A melhoria soma o <strong>dobro da proficiência do nível</strong> ao uso da perícia. Cada perícia pode ser melhorada até <strong>3 vezes</strong>.</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Nível</th><th class="c">Proficiência</th><th class="c">Melhoria (dobro)</th></tr></thead>
+              <tbody>
+                <tr><td>8</td><td class="c">+2</td><td class="c"><b>+4</b></td></tr>
+                <tr><td>16</td><td class="c">+4</td><td class="c"><b>+8</b></td></tr>
+                <tr><td>20</td><td class="c">+5</td><td class="c"><b>+10</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- VII -->
+      <section class="chapter" id="escalonamento" data-ch="Escalonamento" data-n="VII">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo VII</div>
+          <h2>Escalonamento</h2>
+          <p>Valores derivados dos atributos.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div class="stats">
+          <div class="stat" data-s="Deslocamento" id="deslocamento">
+            <span class="k">Deslocamento</span>
+            <span class="f">10 + mod. Destreza</span>
+            <span class="d">Resultado em metros.</span>
+          </div>
+          <div class="stat" data-s="Vida" id="vida">
+            <span class="k">Vida</span>
+            <span class="f">1d6 + 6 + mod. Constituição</span>
+            <span class="d">Pontos de vida do personagem.</span>
+          </div>
+          <div class="stat" data-s="Vigor" id="vigor">
+            <span class="k">Vigor</span>
+            <span class="f">mod. Constituição</span>
+            <span class="d">Representa rodadas de vigor.</span>
+          </div>
+          <div class="stat" data-s="Saúde mental" id="saude">
+            <span class="k">Saúde mental</span>
+            <span class="f">20 × mod. Inteligência</span>
+            <span class="d">Resistência da mente do personagem.</span>
+          </div>
+          <div class="stat" data-s="Limite de carga" id="carga">
+            <span class="k">Limite de carga</span>
+            <span class="f">Força × 2</span>
+            <span class="d">Em kg. Exemplo: Força 14 × 2 = 28 kg.</span>
+          </div>
+          <div class="stat" data-s="Slots de itens" id="slots">
+            <span class="k">Slots</span>
+            <span class="f">15 slots livres</span>
+            <span class="d">Quantos itens o personagem consegue carregar.</span>
+          </div>
+        </div>
+        <div class="pending" data-pend="Vida por nível, e Saúde mental e Vigor com modificador 0 ou negativo" data-pend-link="escalonamento"><span class="tag">Regra a definir</span>
+          <p style="margin:0">A fórmula de <strong>Vida</strong> não diz se o personagem ganha vida ao subir de nível.</p>
+          <p>A <strong>Saúde mental</strong> é 20 × mod. Inteligência. Com Inteligência 9 ou 10 (modificador 0) ela fica em 0, e abaixo de 9 fica negativa. O mesmo vale para o <strong>Vigor</strong> com a Constituição.</p>
+        </div>
+        <div class="pending" data-pend="O que ocupa os slots" data-pend-link="escalonamento"><span class="tag">Regra a definir</span>Não está definido se armas, armadura e escudo ocupam slots, nem se algum item ocupa mais de um. Na ficha, cada item da lista de itens ocupa 1 slot.</div>
+      </section>
+
+      <!-- VIII -->
+      <section class="chapter" id="habilidades" data-ch="Habilidades" data-n="VIII">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo VIII</div>
+          <h2>Habilidades</h2>
+          <p>Como os poderes divinos crescem e como são usados.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="Novas habilidades e aperfeiçoamento" id="novas-habilidades">
+          <h3>Aprender ou aperfeiçoar</h3>
+          <p>Nos níveis <strong>4, 9, 14 e 19</strong>, o jogador escolhe entre:</p>
+          <ul class="plain">
+            <li>aprender <strong>uma nova habilidade</strong>, ou</li>
+            <li><strong>aperfeiçoar duas</strong> habilidades que já tem.</li>
+          </ul>
+          <p>O aperfeiçoamento adiciona uma característica ao <strong>Divino Crítico</strong> daquela habilidade.</p>
+        </div>
+
+        <div data-s="Tipos de habilidades: reativas, padrões e passivas" id="tipos">
+          <h3>Tipos de habilidades</h3>
+          <div class="types">
+            <div class="type"><small>Reação</small><b>Reativas</b><p>Usadas como reação, da mesma forma que uma ação bônus.</p></div>
+            <div class="type"><small>Ação padrão</small><b>Padrões</b><p>Ocupam a ação padrão do personagem.</p></div>
+            <div class="type"><small>Automática</small><b>Passivas</b><p>Ativam sozinhas, disparadas por uma situação específica.</p></div>
+          </div>
+        </div>
+
+        <div data-s="Habilidade não é recurso de cultura" id="habilidade-origem">
+          <h3>Habilidade não é recurso de cultura</h3>
+          <p>A habilidade é uma capacidade definida pelas regras do sistema. Ela <strong>não pertence automaticamente à cultura</strong> e é registrada separada dos <a href="#recursos-cultura">Recursos de Cultura</a>.</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Registro</th><th>Tipo</th><th>Origem</th></tr></thead>
+              <tbody>
+                <tr><td>Visão Sobrenatural</td><td>Habilidade</td><td>Espécie</td></tr>
+                <tr><td>Golpe Poderoso</td><td>Habilidade</td><td>Sistema ou personagem</td></tr>
+                <tr><td>Conhecimento de Cerco</td><td>Recurso de Cultura</td><td>Cultura Militar</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div data-s="Usos diários das habilidades" id="usos-diarios">
+          <h3>Usos diários</h3>
+          <p>Quando uma habilidade tem limite de uso, o nível define quantas vezes por dia ela pode ser usada:</p>
+          <p style="text-align:center"><span class="formula">usos por dia = nível do personagem</span></p>
+          <p>Cada habilidade tem o <strong>seu próprio contador</strong>. No nível 3, três habilidades com limite não somam 3 usos no total: cada uma tem 3 usos, o que dá até 9 utilizações no dia.</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Nível 3</th><th class="c">Usos por dia</th></tr></thead>
+              <tbody>
+                <tr><td>Habilidade A</td><td class="c">3</td></tr>
+                <tr><td>Habilidade B</td><td class="c">3</td></tr>
+                <tr><td>Habilidade C</td><td class="c">3</td></tr>
+                <tr><td><b>Total possível</b></td><td class="c"><b>9</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Os contadores de habilidades e de recursos culturais são <strong>independentes</strong>. Gastar um nunca altera o outro. Quando o contador de uma habilidade zera, ainda dá para usá-la gastando um <a href="#pontos-esforco">ponto de esforço</a>.</p>
+        </div>
+
+        <div data-s="Estrutura de uma habilidade" id="estrutura-habilidade">
+          <h4>Estrutura de uma habilidade</h4>
+          <p class="muted" style="font-size:.97rem">Campos de toda habilidade: nome, descrição, tipo, origem, nível requerido, usos por dia, atributo relacionado, alcance, duração, requisitos, efeito e tipo de recuperação. A habilidade pode ter ou não limite de uso.</p>
+        </div>
+      </section>
+
+      <!-- IX -->
+      <section class="chapter" id="mecanica" data-ch="Mecânica Divina" data-n="IX">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo IX</div>
+          <h2>Mecânica Divina</h2>
+          <p>A qualidade do poder e o teste de resistência do alvo.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="Qualidade da habilidade (1d12)" id="d12">
+          <h3>Qualidade: role 1d12</h3>
+          <p>Ao usar uma <strong>habilidade divina</strong>, role <span class="formula">1d12</span> para definir a <strong>qualidade</strong> do efeito. O d12 não garante que a habilidade acerte, só define o quanto ela é forte.</p>
+          <p class="muted" style="font-size:.97rem">O d12 vale só para habilidades divinas que não envolvem cultura nem perícia. Todo o resto usa <a href="#rolagens">d20 + atributo</a>.</p>
+          <div class="tiers">
+            <div class="tier t-crit"><div class="range">9–12<small>1D12</small></div><div><b>Divino Crítico</b><p>O valor e a qualidade da habilidade saem em 100%.</p><div class="bar"><i></i></div></div></div>
+            <div class="tier t-hit"><div class="range">5–8<small>1D12</small></div><div><b>Acerto</b><p>Metade da qualidade e dos valores de um Divino Crítico.</p><div class="bar"><i></i></div></div></div>
+            <div class="tier t-med"><div class="range">1–4<small>1D12</small></div><div><b>Medíocre</b><p>Metade da qualidade de um Acerto, com valores arredondados para baixo.</p><div class="bar"><i></i></div></div></div>
+          </div>
+          <button class="btn rub" type="button" data-roll="d12">
+            <svg width="20" height="20" aria-hidden="true"><use href="#i-d12"/></svg>Rolar Mecânica Divina
+          </button>
+        </div>
+
+        <div data-s="Teste de acerto: qual atributo o alvo usa" id="teste-acerto">
+          <h3>Teste de acerto</h3>
+          <p>O alvo resiste com o atributo principal que a habilidade afeta. Esse atributo depende do <strong>tipo de dano</strong> ou da <strong>qualidade</strong> do efeito.</p>
+          <ul class="plain">
+            <li>Mutar a constituição corporal de alguém: teste de <span class="term">Constituição</span>.</li>
+            <li>Criar uma ilusão na mente de alguém: teste de <span class="term">Sabedoria</span> ou <span class="term">Inteligência</span>.</li>
+          </ul>
+          <p>O acerto compara a rolagem do alvo com o total do atributo usado na habilidade: <span class="formula">valor do atributo + mod. + prof.</span> O alvo precisa <strong>igualar ou superar</strong> esse total para resistir.</p>
+          <div class="example">
+            <strong>Exemplo: roubar memórias.</strong> A ação está ligada à Sabedoria. O usuário tem Sabedoria 18, modificador +4 e proficiência +1.
+            <div class="calc-line"><span>18</span><em>+</em><span>4</span><em>+</em><span>1</span><em>=</em><span class="total">23</span></div>
+            O alvo precisa alcançar 23 ou mais para resistir.
+          </div>
+        </div>
+
+        <div data-s="Teste dos oponentes contra habilidades" id="teste-oponente">
+          <h3>Teste dos oponentes</h3>
+          <p>O teste dos oponentes contra habilidades é:</p>
+          <p style="text-align:center"><span class="formula">10 + mod. do atributo + proficiência</span></p>
+          <div class="pending" data-pend="Como o alvo rola a resistência e proficiência antes do nível 5" data-pend-link="teste-oponente"><span class="tag">Regra a definir</span>
+            <p style="margin:0">O texto não diz se o alvo rola algum dado ou se usa o valor fixo de 10 + mod. + prof. contra o total da habilidade.</p>
+            <p>O exemplo soma a proficiência (+1) no total da habilidade, mas o Capítulo VI diz que a proficiência só entra nas habilidades a partir do nível 5.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- X -->
+      <section class="chapter" id="rolagens" data-ch="Rolagens" data-n="X">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo X</div>
+          <h2>Rolagens</h2>
+          <p>Como montar um teste com d20.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="Qual dado usar: d12 ou d20" id="qual-dado">
+          <h3>Qual dado usar</h3>
+          <div class="types">
+            <div class="type"><small>Mecânica Divina</small><b>1d12</b><p>Só para a qualidade de habilidades divinas que não envolvem cultura nem perícia (Capítulo IX).</p></div>
+            <div class="type"><small>Todo o resto</small><b>1d20 + atributo</b><p>Testes, perícias, recursos culturais e qualquer outra rolagem.</p></div>
+          </div>
+        </div>
+
+        <div data-s="Fórmula geral de uma rolagem" id="formula-rolagem">
+          <h3>Fórmula geral</h3>
+          <div class="formula-stack">
+            <span>Dado</span><em>+</em><span>Mod. do atributo</span><em>+</em><span>Recurso de Cultura</span><em>+</em><span>Outros modificadores</span><em>&minus;</em><span class="neg">Penalidades</span><em>=</em><span class="tot">Resultado</span>
+          </div>
+          <p>Cada parte é opcional. Nem toda rolagem tem todos os componentes:</p>
+          <ul class="plain">
+            <li><span class="formula">d20 + Força</span></li>
+            <li><span class="formula">d20 + Inteligência + Recurso Cultural</span></li>
+            <li><span class="formula">d20 + Destreza + Habilidade &minus; Desgaste</span></li>
+          </ul>
+          <p>Em rolagens de perícia, some também a perícia treinada (+3) e a proficiência (Capítulo VI). A ficha calcula tudo sozinha: escolha atributo, perícia e recurso, e ela aplica o Desgaste quando o personagem estiver Desgastado.</p>
+        </div>
+
+        <div data-s="Recursos culturais nas rolagens" id="recurso-rolagem">
+          <h3>Recursos culturais nas rolagens</h3>
+          <p>Um Recurso de Cultura pode somar direto no resultado quando a situação tem relação com a cultura do personagem. Ele só vale quando a situação combina com a descrição do recurso.</p>
+          <div class="example">
+            <strong>Exemplo.</strong> d20 = 13, Inteligência 15 (mod. +3), recurso Conhecimento Militar +2.
+            <div class="calc-line"><span>13</span><em>+</em><span>3</span><em>+</em><span>2</span><em>=</em><span class="total">18</span></div>
+          </div>
+          <div class="example">
+            <strong>Com Desgaste.</strong> Resultado normal 18, penalidade de desgaste &minus;2 (valor de exemplo).
+            <div class="calc-line"><span>18</span><em>&minus;</em><span>2</span><em>=</em><span class="total">16</span></div>
+          </div>
+          <div class="pending" data-pend="Dificuldade dos testes d20, vantagem e desvantagem, e atributo de cada perícia" data-pend-link="recurso-rolagem"><span class="tag">Regra a definir</span>
+            <p style="margin:0">Não está definido contra qual número um teste d20 é comparado, nem como funcionam vantagem e desvantagem (citadas no recurso Navegação e na furtividade das armaduras).</p>
+            <p>As perícias também não dizem qual atributo usam. Na ficha, o jogador escolhe o atributo de cada teste.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- XI -->
+      <section class="chapter" id="descanso" data-ch="Descanso e Desgaste" data-n="XI">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo XI</div>
+          <h2>Descanso e Desgaste</h2>
+          <p>Recuperar o que foi gasto, e o preço do cansaço.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="Tipos de recuperação" id="recuperacao">
+          <h3>Tipos de recuperação</h3>
+          <p>Cada habilidade e cada recurso diz como se recupera. O sistema não presume que tudo volta em qualquer descanso.</p>
+          <div class="legend"><span class="pill">Nenhuma</span><span class="pill">Descanso curto</span><span class="pill">Descanso longo</span><span class="pill">Outro</span></div>
+        </div>
+
+        <div class="stats">
+          <div class="stat" data-s="Descanso curto" id="descanso-curto">
+            <span class="k">Descanso curto</span>
+            <span class="f">6 horas</span>
+            <span class="d">Restaura só o que estiver marcado como recuperação por descanso curto. Os efeitos são configuráveis.</span>
+          </div>
+          <div class="stat" data-s="Descanso longo" id="descanso-longo">
+            <span class="k">Descanso longo</span>
+            <span class="f">8 horas</span>
+            <span class="d">Restaura os usos diários das habilidades e dos recursos culturais marcados como descanso longo. Pode remover estados específicos e restaurar outros recursos configurados.</span>
+          </div>
+        </div>
+        <div class="example">
+          <strong>Exemplo de descanso longo, nível 3.</strong>
+          <div class="tbl-wrap" style="font-style:normal">
+            <table>
+              <thead><tr><th></th><th class="c">Antes</th><th class="c">Depois</th></tr></thead>
+              <tbody>
+                <tr><td>Habilidade A</td><td class="c">1/3</td><td class="c"><b>3/3</b></td></tr>
+                <tr><td>Habilidade B</td><td class="c">0/3</td><td class="c"><b>3/3</b></td></tr>
+                <tr><td>Recurso Cultural A</td><td class="c">1/3</td><td class="c"><b>3/3</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="pending" data-pend="Efeitos do descanso curto e estados removidos no descanso longo" data-pend-link="descanso-curto"><span class="tag">Regra a definir</span>Ainda não há nada configurado para voltar no descanso curto, nem uma lista de estados que o descanso longo remove.</div>
+
+        <div data-s="Estados e Desgaste" id="estados">
+          <h3>Estados</h3>
+          <h4>Desgastado</h4>
+          <p>O estado <strong>Desgastado</strong> aplica uma penalidade geral nas rolagens e ações definidas pelo sistema. O valor da penalidade é uma <strong>configuração</strong>, não um número fixo nas regras. Na ficha, a mesa define esse valor e ele é descontado dos testes d20.</p>
+          <h4>Exceções por espécie</h4>
+          <p>Algumas espécies podem ter <strong>resistência</strong> ou <strong>imunidade</strong> ao desgaste, uma <strong>redução da penalidade</strong> ou uma recuperação diferente.</p>
+          <ul class="plain">
+            <li>Anatomia sobrenatural: penalidade de desgaste reduzida em 1.</li>
+            <li>Espécie que não sofre certas penalidades de desgaste.</li>
+          </ul>
+          <h4>Intimidado</h4>
+          <p>Citado na habilidade de pet Intimidar Voraz (Capítulo XIII).</p>
+          <div class="pending" data-pend="Valor da penalidade de Desgaste e regras dos estados" data-pend-link="estados"><span class="tag">Regra a definir</span>
+            <p style="margin:0">Faltam o valor padrão da penalidade de Desgaste, quais rolagens ela afeta, como o personagem fica Desgastado e como sai desse estado.</p>
+            <p>O efeito do estado Intimidado também não está definido.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- XII -->
+      <section class="chapter" id="equipamento" data-ch="Equipamento" data-n="XII">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo XII</div>
+          <h2>Equipamento</h2>
+          <p>Armas, proteções, itens e artefatos.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="Armas" id="armas">
+          <h3>Armas</h3>
+          <p>Cada arma tem nome, categoria, tipo de dano, dano, propriedades, peso, preço, alcance, força mínima, requisitos e descrição. Toque numa propriedade para ver o que ela faz.</p>
+          <div id="weaponTables"></div>
+          <div class="pending" data-pend="Peso, preço e força mínima das armas" data-pend-link="armas"><span class="tag">Regra a definir</span>A lista de armas não traz peso, preço, força mínima, requisitos nem descrição.</div>
+        </div>
+
+        <div data-s="Propriedades das armas" id="propriedades">
+          <h3>Propriedades</h3>
+          <div class="props" id="propList"></div>
+        </div>
+
+        <div data-s="Armaduras e proteções" id="armaduras">
+          <h3>Armaduras e proteções</h3>
+          <p>Cada proteção tem nome, categoria, classe de armadura (CA), força mínima, penalidade de furtividade, peso, preço, propriedades e descrição.</p>
+          <div id="armorTables"></div>
+          <div class="panel" data-s="Escudo" id="escudo">
+            <h4 style="margin-top:0">Escudo</h4>
+            <p style="margin:0"><strong>+2 CA</strong> &middot; 6 lb &middot; 10 PO. Ocupa uma mão.</p>
+          </div>
+          <div class="pending" data-pend="Uso da CA, CA sem armadura, força mínima e unidades" data-pend-link="armaduras"><span class="tag">Regra a definir</span>
+            <p style="margin:0">Não está definido como a CA entra nas rolagens de ataque, qual é a CA sem armadura, nem o que acontece com quem não tem a força mínima.</p>
+            <p>Os pesos estão em libras (lb) e os alcances de arremesso e munição não têm unidade, enquanto o resto do sistema usa kg e metros.</p>
+          </div>
+        </div>
+
+        <div data-s="Itens, itens mágicos e artefatos" id="itens">
+          <h3>Itens e artefatos</h3>
+          <p>Equipamentos, itens, itens mágicos e artefatos são objetos independentes e podem ser adicionados sem mudar o resto do sistema. Na ficha, cada item vai para a lista do personagem.</p>
+          <div class="pending" data-pend="Catálogo de itens, itens mágicos e artefatos" data-pend-link="itens"><span class="tag">Regra a definir</span>Ainda não existe catálogo nem estrutura de campos para itens, itens mágicos e artefatos.</div>
+        </div>
+      </section>
+
+      <!-- XIII -->
+      <section class="chapter" id="pets" data-ch="Pets" data-n="XIII">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo XIII</div>
+          <h2>Pets</h2>
+          <p>Companheiros animais em combate.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <div data-s="Posicionar o pet em combate" id="pet-posicionar">
+          <h3>Posicionar o pet</h3>
+          <div class="pet-grid">
+            <div class="card"><span class="act">Ação bônus</span><h4>Vínculo afetivo</h4><p>Com uma boa relação com seu pet, o jogador tem 1 ação bônus para posicioná-lo no combate.</p></div>
+            <div class="card"><span class="act">Ação bônus</span><h4>Conquistando a natureza</h4><p>O jogador tem 1 ação bônus para rolar um teste de Sabedoria ou de Adestramento e posicionar o pet no combate.</p></div>
+          </div>
+        </div>
+
+        <div data-s="Habilidades comuns dos pets" id="pet-habilidades">
+          <h3>Habilidades comuns</h3>
+          <div class="pet-grid">
+            <div class="card"><span class="act">Ação bônus</span><h4>Incitar o ódio</h4><p>O pet incomoda o inimigo e prende a atenção dele. O inimigo perde uma rodada tentando atacar o pet. Depende de um teste de Carisma do próprio pet.</p></div>
+            <div class="card"><span class="act">Ação bônus</span><h4>Intimidar voraz</h4><p>O pet tenta intimidar um inimigo com um teste de Carisma do próprio pet. Se o inimigo falhar, fica no estado <em>intimidado</em>.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- XIV -->
+      <section class="chapter" id="pericias" data-ch="Perícias" data-n="XIV">
+        <div class="ch-head">
+          <div class="ch-num">Capítulo XIV</div>
+          <h2>Perícias</h2>
+          <p>Escolha três perícias iniciais. Toque para marcar.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+        <div data-s="Lista de perícias" id="lista-pericias">
+          <div class="per-bar">
+            <span class="counter"><b id="perCount">0</b> de 3 escolhidas</span>
+            <button class="btn small ghost" type="button" id="perClear">Limpar escolha</button>
+          </div>
+          <div class="per-grid" id="perGrid"></div>
+        </div>
+      </section>
+
+      <!-- Apêndice -->
+      <section class="chapter" id="ficha" data-ch="Ficha" data-n="Ap">
+        <div class="ch-head">
+          <div class="ch-num">Apêndice</div>
+          <h2>Ficha do Personagem</h2>
+          <p>Digite o nível e os atributos. O resto é calculado com as regras deste livro.</p>
+          <svg class="orn" width="160" height="16" aria-hidden="true"><use href="#i-orn"/></svg>
+        </div>
+
+        <form class="sheet" id="sheet" data-s="Calculadora de ficha" autocomplete="off">
+          <div class="sheet-top">
+            <div class="field">
+              <label for="lvl">Nível</label>
+              <div class="stepper">
+                <button type="button" data-step="-1" aria-label="Diminuir nível">&minus;</button>
+                <input id="lvl" type="number" min="1" max="20" value="1" inputmode="numeric">
+                <button type="button" data-step="1" aria-label="Aumentar nível">+</button>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+              <span class="sample-flag" id="sampleFlag">Valores de exemplo</span>
+              <button class="btn small rub" type="button" data-roll="six">Rolar atributos</button>
+            </div>
+          </div>
+
+          <div class="idgrid">
+            <div class="field"><label for="fNome">Nome</label><input class="txt" id="fNome" type="text" maxlength="60" placeholder="Nome do personagem"></div>
+            <div class="field"><label for="fEsp">Espécie</label><select class="sel" id="fEsp"></select></div>
+            <div class="field"><label for="fLin">Linhagem</label><select class="sel" id="fLin"></select></div>
+            <div class="field"><label for="fCul">Cultura</label><select class="sel" id="fCul"></select></div>
+          </div>
+
+          <div class="attrs" id="attrs"></div>
+
+          <h4>Recursos do nível</h4>
+          <div class="outs">
+            <div class="out"><span class="lbl">Proficiência</span><span class="v" id="oProf"></span></div>
+            <div class="out"><span class="lbl">Habilidades</span><span class="v" id="oHab"></span><span class="h" id="oHabH"></span></div>
+            <div class="out"><span class="lbl">Usos por dia</span><span class="v" id="oUsos"></span><span class="h">de cada habilidade ou recurso com limite</span></div>
+            <div class="out"><span class="lbl">Influência</span><span class="v" id="oInfl"></span></div>
+            <div class="out"><span class="lbl">Aumentos de atributo</span><span class="v" id="oAtr"></span><span class="h" id="oAtrH"></span></div>
+            <div class="out"><span class="lbl">Perícias extras</span><span class="v" id="oPer"></span></div>
+          </div>
+
+          <h4>Escalonamento</h4>
+          <div class="outs">
+            <div class="out"><span class="lbl">Deslocamento</span><span class="v" id="oDesl"></span></div>
+            <div class="out"><span class="lbl">Vida</span><span class="v" id="oVida"></span><span class="h">1d6 + 6 + mod. CON</span><button class="btn small ghost" type="button" data-roll="vida">Rolar vida</button></div>
+            <div class="out"><span class="lbl">Vigor</span><span class="v" id="oVig"></span></div>
+            <div class="out"><span class="lbl">Saúde mental</span><span class="v" id="oSm"></span></div>
+            <div class="out"><span class="lbl">Limite de carga</span><span class="v" id="oCarga"></span></div>
+            <div class="out"><span class="lbl">Classe de armadura</span><span class="v" id="oCA"></span><span class="h" id="oCAH"></span></div>
+          </div>
+          <div class="outs" style="margin-top:8px">
+            <div class="out"><label class="lbl" for="fVidaMax">Vida máxima</label><input class="txt" id="fVidaMax" type="number" min="0" max="999" inputmode="numeric" placeholder="role ou digite"></div>
+            <div class="out"><span class="lbl">Vida atual</span>
+              <div class="stepper" style="margin-top:3px">
+                <button type="button" data-vida="-1" aria-label="Perder 1 de vida">&minus;</button>
+                <input id="fVida" type="number" min="0" max="999" inputmode="numeric" aria-label="Vida atual">
+                <button type="button" data-vida="1" aria-label="Recuperar 1 de vida">+</button>
+              </div>
+            </div>
+          </div>
+
+          <h4>Estados</h4>
+          <div class="state-box" id="desgBox">
+            <label class="switch"><input type="checkbox" id="fDesg"><span class="tr" aria-hidden="true"></span><span><b>Desgastado</b><br><span class="note" id="desgNote" style="margin:0"></span></span></label>
+            <div class="field" style="max-width:190px">
+              <label for="fDesgPen">Penalidade (regra da mesa)</label>
+              <input class="txt" id="fDesgPen" type="number" min="0" max="20" inputmode="numeric" placeholder="a definir">
+            </div>
+          </div>
+
+          <h4>Habilidades</h4>
+          <div class="ctr" style="margin-bottom:10px">
+            <span class="lbl" style="margin-right:4px">Esforço</span>
+            <span class="pips" id="esfPips"></span>
+            <span class="cnt" id="esfCnt"></span>
+            <div class="btns"><button class="btn small ghost" type="button" id="esfUse">Gastar esforço</button></div>
+          </div>
+          <div class="hcards" id="habList"></div>
+          <div class="addrow"><button class="btn small" type="button" id="habAdd">Adicionar habilidade</button></div>
+          <p class="note">Cada habilidade com limite tem o seu próprio contador (usos por dia = nível). Com o contador zerado, use gastando esforço.</p>
+
+          <h4>Recursos de Cultura</h4>
+          <div class="hcards" id="recList"></div>
+          <p class="note">Contadores separados das habilidades. Usar um recurso não gasta habilidade, e vice-versa.</p>
+
+          <h4>Descanso</h4>
+          <div class="addrow" style="margin-top:0">
+            <button class="btn small ghost" type="button" data-rest="descanso_curto">Descanso curto &middot; 6 h</button>
+            <button class="btn small" type="button" data-rest="descanso_longo">Descanso longo &middot; 8 h</button>
+          </div>
+          <p class="note" id="restNote">Cada descanso restaura só o que estiver marcado com a recuperação dele.</p>
+
+          <h4>Teste d20</h4>
+          <div class="test">
+            <div class="grid">
+              <div class="field"><label for="tAtr">Atributo</label><select class="sel" id="tAtr"></select></div>
+              <div class="field"><label for="tPer">Perícia</label><select class="sel" id="tPer"></select></div>
+              <div class="field"><label for="tRec">Recurso de Cultura</label><select class="sel" id="tRec"></select></div>
+              <div class="field"><label for="tMod">Outros modificadores</label><input class="txt" id="tMod" type="number" min="-50" max="50" value="0" inputmode="numeric"></div>
+            </div>
+            <p class="preview" id="tPrev"></p>
+            <button class="btn rub" type="button" id="tRoll">Rolar teste</button>
+          </div>
+
+          <h4>Equipamento</h4>
+          <div class="idgrid" style="margin-bottom:6px">
+            <div class="field"><label for="fArm">Armadura</label><select class="sel" id="fArm"></select></div>
+            <div class="field" style="display:flex;align-items:flex-end"><label class="switch" style="min-height:40px"><input type="checkbox" id="fEsc"><span class="tr" aria-hidden="true"></span><span>Escudo (+2 CA)</span></label></div>
+          </div>
+          <p class="warn" id="armWarn" hidden></p>
+          <div class="addrow">
+            <select class="sel" id="fArmaSel" aria-label="Escolher arma"></select>
+            <button class="btn small" type="button" id="armaAdd">Adicionar arma</button>
+          </div>
+          <ul class="list" id="armaList"></ul>
+
+          <h4>Itens</h4>
+          <div class="ctr"><span class="lbl">Slots</span><span class="cnt" id="slotCnt"></span></div>
+          <div class="addrow">
+            <input class="txt" id="itemNome" type="text" maxlength="60" placeholder="Nome do item">
+            <select class="sel" id="itemCat" aria-label="Tipo de item">
+              <option>Equipamento</option><option>Item</option><option>Item mágico</option><option>Artefato</option>
+            </select>
+            <button class="btn small" type="button" id="itemAdd">Adicionar</button>
+          </div>
+          <ul class="list" id="itemList"></ul>
+
+          <h4>Habilidades e resistências por atributo</h4>
+          <div class="tbl-wrap" style="margin-top:6px">
+            <table>
+              <thead><tr><th>Atributo</th><th class="c">Total da habilidade</th><th class="c">Resistência</th></tr></thead>
+              <tbody id="cdBody"></tbody>
+            </table>
+          </div>
+          <p class="note">Total da habilidade = valor + mod. + prof., como no exemplo do Capítulo IX. Resistência = 10 + mod. + prof. Veja as regras a definir sobre proficiência antes do nível 5.</p>
+
+          <h4>Perícias escolhidas</h4>
+          <div class="chosen" id="oChosen"></div>
+          <p class="note" id="oChosenNote"></p>
+
+          <div class="addrow" style="margin-top:22px;justify-content:flex-end">
+            <button class="btn small ghost" type="button" id="sheetReset">Limpar ficha</button>
+          </div>
+        </form>
+      </section>
+
+      <footer>Ruptura do Divino &middot; Livro do Jogador</footer>
+    </div>
+  </main>
+</div>
+
+<button class="totop" id="totop" aria-label="Voltar ao topo"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="fab" type="button" data-open-roller aria-label="Abrir rolador de dados"><svg width="22" height="22" aria-hidden="true"><use href="#i-d12"/></svg>Dados</button>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="roller" role="dialog" aria-modal="true" aria-labelledby="rollerTitle">
+  <div class="grab"></div>
+  <div class="dr-head">
+    <h2 id="rollerTitle">Rolador</h2>
+    <button class="close" type="button" id="rollerClose" aria-label="Fechar rolador">&times;</button>
+  </div>
+
+  <div class="result" id="result" aria-live="polite">
+    <span class="what">Pronto</span>
+    <span class="big" style="color:var(--ink-faint)">d12</span>
+    <span class="brk">Escolha uma rolagem abaixo.</span>
+  </div>
+
+  <div class="presets">
+    <button class="preset main" type="button" data-roll="d12"><b>Mecânica Divina</b><span>1d12 &middot; qualidade da habilidade</span></button>
+    <button class="preset" type="button" data-roll="attr"><b>Atributo</b><span>1d8 + 8</span></button>
+    <button class="preset" type="button" data-roll="six"><b>Seis atributos</b><span>6 &times; (1d8 + 8)</span></button>
+    <button class="preset" type="button" data-roll="vida"><b>Vida</b><span id="vidaPreset">1d6 + 6 + mod. CON</span></button>
+    <button class="preset" type="button" data-roll="d20"><b>d20</b><span>1d20</span></button>
+  </div>
+
+  <div class="custom">
+    <span class="lbl">Rolagem livre</span>
+    <div class="dice" id="dice" role="group" aria-label="Tipo de dado"></div>
+    <div class="row">
+      <div class="field">
+        <label for="cQty">Quantidade</label>
+        <div class="stepper">
+          <button type="button" data-cstep="cQty:-1" aria-label="Menos dados">&minus;</button>
+          <input id="cQty" type="number" min="1" max="20" value="1" inputmode="numeric">
+          <button type="button" data-cstep="cQty:1" aria-label="Mais dados">+</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="cMod">Bônus</label>
+        <div class="stepper">
+          <button type="button" data-cstep="cMod:-1" aria-label="Diminuir bônus">&minus;</button>
+          <input id="cMod" type="number" min="-20" max="50" value="0" inputmode="numeric">
+          <button type="button" data-cstep="cMod:1" aria-label="Aumentar bônus">+</button>
+        </div>
+      </div>
+      <button class="btn" type="button" id="cRoll">Rolar</button>
+    </div>
+  </div>
+
+  <div class="custom">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span class="lbl">Histórico</span>
+      <button class="btn small ghost" type="button" id="histClear">Limpar</button>
+    </div>
+    <ul class="hist" id="hist"></ul>
+  </div>
+</aside>
+
+<aside class="drawer" id="info" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+  <div class="grab"></div>
+  <div class="dr-head">
+    <h2 id="infoTitle">Espécie</h2>
+    <button class="close" type="button" id="infoClose" aria-label="Fechar">&times;</button>
+  </div>
+  <div id="infoBody"></div>
+</aside>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s,r){return (r||document).querySelector(s)};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var store = {
+    get:function(k,d){try{var v=localStorage.getItem("rdd:"+k);return v?JSON.parse(v):d}catch(e){return d}},
+    set:function(k,v){try{localStorage.setItem("rdd:"+k,JSON.stringify(v))}catch(e){}},
+    del:function(k){try{localStorage.removeItem("rdd:"+k)}catch(e){}}
+  };
+
+  /* =====================================================================
+     DADOS CENTRAIS DO SISTEMA
+     Tudo que é regra ou catálogo fica aqui. Para mudar um valor ou
+     acrescentar espécie, cultura, recurso, arma ou armadura, edite só
+     este bloco. null = "a definir".
+     ===================================================================== */
+  var ATTRS=[["for","FOR","Força"],["des","DES","Destreza"],["con","CON","Constituição"],["int","INT","Inteligência"],["sab","SAB","Sabedoria"],["car","CAR","Carisma"]];
+
+  // Tabela de modificadores: [valor mínimo, valor máximo, modificador]
+  var MODS=[[1,1,-5],[2,3,-4],[4,5,-3],[6,7,-2],[8,8,-1],[9,10,0],[11,12,1],[13,14,2],[15,16,3],[17,18,4],[19,20,5]];
+
+  // Ascensão. g: i=+10 infl, h=habilidade, a=atributo+, p=+1 perícia, ph=prof+habilidade
+  var ASC=[
+    [1,["i"],1,1],[2,["i"],1,1],[3,["i"],1,1],[4,["h"],1,1],[5,["ph","a"],1,2],
+    [6,["i"],1,2],[7,["i"],2,2],[8,["p"],2,2],[9,["h"],2,2],[10,["i","a"],2,3],
+    [11,["i"],2,3],[12,["i"],2,3],[13,["i"],3,3],[14,["h"],3,3],[15,["i","a"],3,3],
+    [16,["p"],3,4],[17,["i"],3,4],[18,["i"],3,4],[19,["h"],4,4],[20,["p","a"],4,5]
+  ];
+  var GAIN={i:['pill',"+10 infl."],h:['pill hab',"Habilidade"],a:['pill atr',"Atributo +"],p:['pill per',"+1 perícia"],ph:['pill prof',"Prof. na habilidade"]};
+  var PERICIAS=["Acrobacia","Adestramento","Artes","Atletismo","Atualidades","Ciências","Crime","Diplomacia","Enganação","Fortitude","Furtividade","Iniciativa","Intimidação","Intuição","Investigação","Luta","Medicina","Ocultismo","Percepção","Pilotagem","Pontaria","Profissão","Reflexos","Religião","Sobrevivência","Tática","Tecnologia","Vontade"];
+
+  var CONFIG={
+    desgaste:{penalidade:null},          // penalidade padrão do estado Desgastado (a mesa pode definir na ficha)
+    pericia:{treinada:3},                // bônus de perícia treinada
+    esforcoRecupera:"descanso_longo",    // esforço é "por dia"
+    descanso:{descanso_curto:{nome:"Descanso curto",horas:6},descanso_longo:{nome:"Descanso longo",horas:8}}
+  };
+  var RECUP={nenhuma:"Nenhuma",descanso_curto:"Descanso curto",descanso_longo:"Descanso longo",outro:"Outro"};
+  var HAB_TIPOS=["Padrão","Reativa","Passiva"];
+  var HAB_ORIG=["Personagem","Sistema","Espécie","Linhagem"];
+
+  // Espécies: [categoria, [espécies], linhagens citadas na categoria]
+  var SP_CATS=[
+    ["Humanoides",["Humano","Elfo","Anão","Halfling","Gnomo","Orc","Goblin","Hobgoblin","Bugbear"]],
+    ["Dracônicos",["Draconato","Kobold","Meio-dragão"],["cromáticas","metálicas","gemadas"]],
+    ["Celestiais",["Aasimar","Suraggel"],["celestiais"]],
+    ["Infernais",["Tiefling","Cambion"],["infernais"]],
+    ["Elementais",["Genasi do fogo","Genasi da água","Genasi do ar","Genasi da terra"]],
+    ["Feéricos",["Fada","Eladrin","Sátiro","Centauro","Sprite","Harengon","Changeling","Hexblood"]],
+    ["Animais",["Tabaxi","Leonin","Lizardfolk","Tortle","Catfolk","Ratfolk","Vanara","Gnoll"]],
+    ["Aviários",["Aarakocra","Kenku","Tengu"]],
+    ["Reptilianos",["Yuan-ti","Nagaji","Medusa","Lizardfolk","Kobold","Troglodita","Teju","Tabrachi"]],
+    ["Insetoides",["Thri-kreen","Anadi"]],
+    ["Aquáticos",["Sereia","Tritão"]],
+    ["Vegetais",["Leshy","Dahllan"]],
+    ["Mortos-vivos",["Osteon","Reborn","Dhampir","Vampiro","Esqueleto","Revenante","Múmia"]],
+    ["Constructos",["Golem","Poppet","Automaton","Warforged"]],
+    ["Aberrantes",["Lefou","Fleshwarp"]],
+    ["Amorfos",["Plasmoid"]],
+    ["Sombrios",["Shadar-kai","Fetchling","Duskwalker"]],
+    ["Outros",["Minotauro","Giff","Kashrishi","Conrasu","Goloma","Shoony","Grippli","Fomori","Cyclops","Sasquatch","Naga","Skaven"]]
+  ];
+  var LINHAGENS={"Elfo":["Elfo Solar","Elfo Lunar","Elfo Florestal","Elfo Sombrio","Elfo Astral","Elfo Marinho"]};
+  // Dados de cada espécie, por nome. Ex.: "Elfo":{tamanho:"Médio",desgMod:1,desgImune:false}
+  var SP_DATA={};
+  var SP_FIELDS=[
+    ["Geral",[["descricao","Descrição"],["tamanho","Tamanho"],["peso","Peso médio"],["altura","Altura média"],["longevidade","Longevidade"],["maturidade","Idade de maturidade"],["habitat","Habitat"],["deslocamento","Deslocamento"],["sentidos","Sentidos"]]],
+    ["Biologia",[["anatomia","Anatomia"],["alimentacao","Alimentação"],["respiracao","Respiração"],["reproducao","Reprodução"],["fisicas","Características físicas"]]],
+    ["Defesas",[["resistencias","Resistências"],["imunidades","Imunidades"],["vulnerabilidades","Vulnerabilidades"]]],
+    ["Desgaste",[["desgRes","Resistência ao desgaste"],["desgImune","Imunidade ao desgaste"],["desgMod","Redução da penalidade"]]],
+    ["Traços",[["raciais","Características raciais"],["sobrenaturais","Características sobrenaturais"]]]
+  ];
+  var LIN_FIELDS=["aparência","sentidos","resistências","vulnerabilidades","deslocamento","características raciais","afinidades","características sobrenaturais"];
+
+  var CULTURAS=["Militar","Acadêmica","Marítima","Religiosa","Mercantil","Tribal","Aristocrática","Nômade","Agrícola","Mágica","Artesã","Caçadora","Urbana","Diplomática","Subterrânea"];
+  // Recursos de Cultura. usos: "nivel" (nível por dia), "livre" (sem limite) ou null (a definir)
+  var RECURSOS=[
+    {id:"mar-naval",cultura:"Marítima",nome:"Conhecimento Naval",efeito:"Concede +2 em uma rolagem relacionada a navegação.",rolagens:"Navegação",bonus:2,nivel:null,usos:"nivel",rec:"descanso_longo",cond:"Situação relacionada a navegação."},
+    {id:"mar-navegacao",cultura:"Marítima",nome:"Navegação",efeito:"Permite obter vantagem ou modificador positivo em uma rolagem relacionada à navegação.",rolagens:"Navegação",bonus:null,nivel:null,usos:null,rec:null,cond:"Situação relacionada à navegação."},
+    {id:"mar-conhecimento",cultura:"Marítima",nome:"Conhecimento Marítimo",efeito:"Permite reconhecer certas condições do mar, embarcações ou fenômenos marítimos.",rolagens:"Reconhecer o mar, embarcações e fenômenos marítimos",bonus:null,nivel:null,usos:null,rec:null,cond:null},
+    {id:"mar-sobrevivencia",cultura:"Marítima",nome:"Sobrevivência no Mar",efeito:"Pode influenciar uma rolagem de sobrevivência em ambiente marítimo.",rolagens:"Sobrevivência no mar",bonus:null,nivel:null,usos:null,rec:null,cond:"Ambiente marítimo."},
+    {id:"mil-conhecimento",cultura:"Militar",nome:"Conhecimento Militar",efeito:"Soma +2 em rolagens compatíveis com conhecimento militar.",rolagens:"Conhecimento militar",bonus:2,nivel:null,usos:null,rec:null,cond:"Situação militar."},
+    {id:"mil-treinamento",cultura:"Militar",nome:"Treinamento Militar",efeito:"Treinamento recebido na cultura militar.",rolagens:null,bonus:null,nivel:null,usos:null,rec:null,cond:null},
+    {id:"mil-estrategias",cultura:"Militar",nome:"Conhecimento de Estratégias",efeito:"Conhecimento de estratégias aprendido na cultura militar.",rolagens:null,bonus:null,nivel:null,usos:null,rec:null,cond:null},
+    {id:"mil-cerco",cultura:"Militar",nome:"Conhecimento de Cerco",efeito:"Conhecimento sobre cercos.",rolagens:null,bonus:null,nivel:null,usos:null,rec:null,cond:null}
+  ];
+
+  var PROPS={
+    acuidade:["Acuidade","Permite utilizar Força ou Destreza, de acordo com as regras de ataque."],
+    leve:["Leve","Arma de fácil manejo."],
+    pesada:["Pesada","Arma de grande porte."],
+    duas:["Duas mãos","Exige as duas mãos."],
+    versatil:["Versátil","Pode ser usada com uma ou duas mãos. Com duas, o dano muda para o valor indicado."],
+    alcance:["Alcance","Aumenta o alcance dos ataques corpo a corpo."],
+    arremesso:["Arremesso","Permite usar a arma em ataques à distância. Os números são as distâncias."],
+    municao:["Munição","Exige munição. Os números são as distâncias."],
+    recarga:["Recarga","Impõe uma limitação específica de recarga."],
+    especial:["Especial","Tem uma regra própria."]
+  };
+  var WCATS=[["sc","Simples · corpo a corpo"],["sd","Simples · à distância"],["mc","Marciais · corpo a corpo"],["md","Marciais · à distância"]];
+  // [categoria, nome, dano, tipo, propriedades ("prop" ou "prop:valor")]
+  var ARMAS=[
+    ["sc","Clava","1d4","contundente",["leve"]],
+    ["sc","Adaga","1d4","perfurante",["acuidade","leve","arremesso:20/60"]],
+    ["sc","Clava grande","1d8","contundente",["duas"]],
+    ["sc","Machadinha","1d6","cortante",["leve","arremesso:20/60"]],
+    ["sc","Azagaia","1d6","perfurante",["arremesso:30/120"]],
+    ["sc","Martelo leve","1d4","contundente",["leve","arremesso:20/60"]],
+    ["sc","Maça","1d6","contundente",[]],
+    ["sc","Bordão","1d6","contundente",["versatil:1d8"]],
+    ["sc","Foice","1d4","cortante",["leve"]],
+    ["sc","Lança","1d6","perfurante",["arremesso:20/60","versatil:1d8"]],
+    ["sd","Besta leve","1d8","perfurante",["municao:80/320","recarga","duas"]],
+    ["sd","Dardo","1d4","perfurante",["acuidade","arremesso:20/60"]],
+    ["sd","Arco curto","1d6","perfurante",["municao:80/320","duas"]],
+    ["sd","Funda","1d4","contundente",["municao:30/120"]],
+    ["mc","Machado de batalha","1d8","cortante",["versatil:1d10"]],
+    ["mc","Mangual","1d8","contundente",[]],
+    ["mc","Glaive","1d10","cortante",["pesada","alcance","duas"]],
+    ["mc","Machado grande","1d12","cortante",["pesada","duas"]],
+    ["mc","Espada grande","2d6","cortante",["pesada","duas"]],
+    ["mc","Alabarda","1d10","cortante",["pesada","alcance","duas"]],
+    ["mc","Lança de cavalaria","1d12","perfurante",["alcance","especial"]],
+    ["mc","Espada longa","1d8","cortante",["versatil:1d10"]],
+    ["mc","Malho","2d6","contundente",["pesada","duas"]],
+    ["mc","Maça-estrela","1d8","perfurante",[]],
+    ["mc","Pique","1d10","perfurante",["pesada","alcance","duas"]],
+    ["mc","Rapieira","1d8","perfurante",["acuidade"]],
+    ["mc","Cimitarra","1d6","cortante",["acuidade","leve"]],
+    ["mc","Espada curta","1d6","perfurante",["acuidade","leve"]],
+    ["mc","Tridente","1d6","perfurante",["arremesso:20/60","versatil:1d8"]],
+    ["mc","Picareta de guerra","1d8","perfurante",[]],
+    ["mc","Martelo de guerra","1d8","contundente",["versatil:1d10"]],
+    ["mc","Chicote","1d4","cortante",["acuidade","alcance"]],
+    ["md","Zarabatana","1","perfurante",["municao:25/100","recarga"]],
+    ["md","Besta de mão","1d6","perfurante",["municao:30/120","leve","recarga"]],
+    ["md","Besta pesada","1d10","perfurante",["municao:100/400","pesada","recarga","duas"]],
+    ["md","Arco longo","1d8","perfurante",["municao:150/600","pesada","duas"]],
+    ["md","Rede",null,null,["arremesso:5/15","especial"]]
+  ].map(function(a){return {c:a[0],nome:a[1],dano:a[2],tipo:a[3],props:a[4],peso:null,preco:null,forMin:null,req:null,desc:null}});
+
+  var ACATS=[["leve","Leves"],["media","Médias"],["pesada","Pesadas"]];
+  // des: "full" = + Destreza, "max2" = + Destreza até +2, "none" = sem Destreza
+  var ARMADURAS=[
+    ["leve","Acolchoada",11,"full",null,true,"8 lb","5 PO"],
+    ["leve","Couro",11,"full",null,false,"10 lb","10 PO"],
+    ["leve","Couro batido",12,"full",null,false,"13 lb","45 PO"],
+    ["media","Gibão de peles",12,"max2",null,false,"12 lb","10 PO"],
+    ["media","Cota de malha de anéis",13,"max2",null,false,"20 lb","50 PO"],
+    ["media","Couraça",14,"max2",null,false,"20 lb","400 PO"],
+    ["media","Meia-armadura",15,"max2",null,true,"40 lb","750 PO"],
+    ["pesada","Cota de anéis",14,"none",null,true,"40 lb","30 PO"],
+    ["pesada","Cota de malha",16,"none",13,true,"55 lb","75 PO"],
+    ["pesada","Armadura de escamas",16,"none",13,true,"60 lb","200 PO"],
+    ["pesada","Peitoral",17,"none",15,true,"65 lb","1.500 PO"],
+    ["pesada","Armadura de placas",18,"none",15,true,"65 lb","1.500 PO"]
+  ].map(function(a){return {c:a[0],id:slug(a[1]),nome:a[1],base:a[2],des:a[3],forMin:a[4],furt:a[5],peso:a[6],preco:a[7]}});
+  var ESCUDO={nome:"Escudo",ca:2,peso:"6 lb",preco:"10 PO"};
+  var SLOTS=15;
+  /* ===================== fim dos dados centrais ===================== */
+
+  function modOf(v){v=+v;for(var i=0;i<MODS.length;i++){if(v>=MODS[i][0]&&v<=MODS[i][1])return MODS[i][2]}return null}
+  function profOf(l){return l>=20?5:l>=16?4:l>=10?3:l>=5?2:1}
+  function sg(n){return (n>=0?"+":"")+n}
+  function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function fold(s){return s.split("").map(function(c){return c.normalize("NFD").charAt(0)}).join("").toLowerCase()}
+  function slug(s){return fold(s).replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
+  function tbd(t){return '<span class="tbd">'+(t||"a definir")+'</span>'}
+  function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+
+  var SPECIES={}, SP_ORDER=[];
+  SP_CATS.forEach(function(c){c[1].forEach(function(n){
+    if(!SPECIES[n]){SPECIES[n]={nome:n,cats:[],lin:LINHAGENS[n]||[],d:SP_DATA[n]||{}};SP_ORDER.push(n)}
+    SPECIES[n].cats.push(c[0]);
+  })});
+  function recOf(id){for(var i=0;i<RECURSOS.length;i++)if(RECURSOS[i].id===id)return RECURSOS[i];return null}
+  function armorOf(id){for(var i=0;i<ARMADURAS.length;i++)if(ARMADURAS[i].id===id)return ARMADURAS[i];return null}
+  function weaponOf(n){for(var i=0;i<ARMAS.length;i++)if(ARMAS[i].nome===n)return ARMAS[i];return null}
+
+  /* ---------- nav ---------- */
+  var chapters=$$("section[data-ch][data-n]");
+  var chipsEl=$("#chips"), tocEl=$("#toc");
+  chapters.forEach(function(s){
+    var name=s.getAttribute("data-ch"), n=s.getAttribute("data-n");
+    var a=document.createElement("a");a.href="#"+s.id;a.textContent=name;a.dataset.t=s.id;chipsEl.appendChild(a);
+    var li=document.createElement("li");var b=document.createElement("a");b.href="#"+s.id;b.dataset.t=s.id;
+    b.innerHTML='<span class="n">'+(n==="Ap"?"Ap.":n)+'</span><span>'+name+'</span>';li.appendChild(b);tocEl.appendChild(li);
+  });
+  function setActive(id){
+    $$("[data-t]").forEach(function(a){a.classList.toggle("on",a.dataset.t===id)});
+    var chip=$('.chips a[data-t="'+id+'"]');
+    if(chip&&chipsEl.offsetParent!==null){
+      var l=chip.offsetLeft-chipsEl.clientWidth/2+chip.clientWidth/2;
+      chipsEl.scrollTo({left:l,behavior:"smooth"});
+    }
+  }
+  var current=null;
+  function spy(){
+    var y=window.innerHeight*0.35, id=null;
+    for(var i=0;i<chapters.length;i++){ if(chapters[i].getBoundingClientRect().top<=y) id=chapters[i].id; }
+    if(id!==current){current=id;setActive(id)}
+    $("#totop").classList.toggle("show",window.scrollY>600);
+  }
+  window.addEventListener("scroll",spy,{passive:true});
+  $("#totop").addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"})});
+
+  /* ---------- pending list ---------- */
+  var pl=$("#pendList");
+  $$("[data-pend]").forEach(function(p){
+    var li=document.createElement("li");
+    var a=document.createElement("a");a.href="#"+p.getAttribute("data-pend-link");a.textContent=p.getAttribute("data-pend");
+    li.appendChild(a);pl.appendChild(li);
+  });
+
+  /* ---------- tabela de modificadores ---------- */
+  $("#modBody").innerHTML=MODS.map(function(r){
+    return '<tr><td>'+(r[0]===r[1]?r[0]:r[0]+" – "+r[1])+'</td><td class="c"><b>'+(r[2]===0?"0":sg(r[2]))+'</b></td></tr>';
+  }).join("");
+
+  /* ---------- ascension table ---------- */
+  var tb=$("#ascBody");
+  var start=document.createElement("tr");
+  start.innerHTML='<td>—</td><td colspan="3"><span class="pill hab">3 habilidades iniciais</span> <span class="muted" style="font-size:.9rem">os três verbos</span></td>';
+  tb.appendChild(start);
+  ASC.forEach(function(r){
+    var tr=document.createElement("tr");
+    var tags=r[1];
+    tr.dataset.tags=tags.join(" ");
+    if(tags.indexOf("h")>-1||tags.indexOf("a")>-1||tags.indexOf("p")>-1) tr.className="milestone";
+    tr.innerHTML='<td>'+r[0]+'</td><td><div class="gain">'+tags.map(function(t){return '<span class="'+GAIN[t][0]+'">'+GAIN[t][1]+'</span>'}).join("")+'</div></td><td class="c">+'+r[2]+'</td><td class="c">+'+r[3]+'</td>';
+    tb.appendChild(tr);
+  });
+  $$(".asc-filter button").forEach(function(b){
+    b.addEventListener("click",function(){
+      var f=b.dataset.f;
+      $$(".asc-filter button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");x.classList.toggle("ghost",x!==b)});
+      $$("#ascBody tr[data-tags]").forEach(function(tr){
+        var t=tr.dataset.tags.split(" ");
+        var hit=f==="all"||t.indexOf(f)>-1||(f==="hab"&&t.indexOf("ph")>-1);
+        tr.classList.toggle("dim",!hit);
+      });
+    });
+  });
+  $('.asc-filter button[data-f="all"]').classList.remove("ghost");
+
+  /* ---------- espécies ---------- */
+  var spCat="Todas";
+  var spFilter=$("#spFilter"), spList=$("#spList");
+  ["Todas"].concat(SP_CATS.map(function(c){return c[0]})).forEach(function(c){
+    var b=document.createElement("button");b.type="button";b.textContent=c;b.dataset.cat=c;
+    b.addEventListener("click",function(){spCat=c;renderSpecies()});
+    spFilter.appendChild(b);
+  });
+  function renderSpecies(){
+    $$("button",spFilter).forEach(function(b){b.setAttribute("aria-pressed",b.dataset.cat===spCat?"true":"false")});
+    var seen={}, html="";
+    SP_CATS.forEach(function(c){
+      if(spCat!=="Todas"&&spCat!==c[0])return;
+      html+='<div class="sp-cat"><span>'+c[0]+'</span>'+(c[2]?'<small>Linhagens citadas: '+c[2].join(", ")+' (a definir)</small>':'')+'</div><div class="sp-grid">';
+      c[1].forEach(function(n){
+        var sp=SPECIES[n], id=seen[n]?"":' id="sp-'+slug(n)+'"';seen[n]=1;
+        html+='<button type="button" class="sp" data-sp="'+esc(n)+'"'+id+'>'+esc(n)+(sp.lin.length?'<small>'+sp.lin.length+' linhagens</small>':'')+'</button>';
+      });
+      html+='</div>';
+    });
+    spList.innerHTML=html;
+  }
+  spList.addEventListener("click",function(e){var b=e.target.closest("[data-sp]");if(b)showSpecies(b.dataset.sp)});
+  renderSpecies();
+
+  function fval(v){
+    if(v===true)return "Sim";if(v===false)return "Não";
+    if(v==null||v==="")return tbd();
+    return esc(v);
+  }
+  function showSpecies(n){
+    var sp=SPECIES[n];if(!sp)return;
+    var h='<p class="muted" style="margin:.2em 0 .6em">Categoria: '+sp.cats.join(" · ")+'</p>';
+    SP_FIELDS.forEach(function(g){
+      h+='<div class="info-h">'+g[0]+'</div><dl class="dl">';
+      g[1].forEach(function(f){h+='<dt>'+f[1]+'</dt><dd>'+fval(sp.d[f[0]])+'</dd>'});
+      h+='</dl>';
+    });
+    h+='<div class="info-h">Linhagens</div>';
+    if(sp.lin.length){
+      h+='<div class="legend" style="margin:6px 0">'+sp.lin.map(function(l){return '<span class="pill">'+esc(l)+'</span>'}).join("")+'</div>';
+      h+='<p class="note">Cada linhagem pode modificar '+LIN_FIELDS.join(", ")+'. Valores a definir.</p>';
+    }else h+='<p>'+tbd("Nenhuma cadastrada.")+'</p>';
+    h+='<div class="info-h">Culturas compatíveis</div><p style="margin:.3em 0">Todas. Qualquer espécie pode ter qualquer cultura.</p>';
+    h+='<div class="addrow" style="margin-top:16px"><button class="btn" type="button" id="spUse">Usar na ficha</button></div>';
+    $("#infoTitle").textContent=n;
+    $("#infoBody").innerHTML=h;
+    $("#spUse").addEventListener("click",function(){
+      st.esp=n;st.lin="";renderIdentity();persist();calc();closeSheet();
+      $("#ficha").scrollIntoView({behavior:"smooth"});
+    });
+    openSheet($("#info"));
+  }
+
+  /* ---------- culturas ---------- */
+  function usosPill(r){
+    if(r.usos==="nivel")return '<span class="pill">nível por dia</span>'+(r.rec?'<span class="pill">'+RECUP[r.rec]+'</span>':'<span class="pill tbd">recuperação a definir</span>');
+    if(r.usos==="livre")return '<span class="pill">sem limite</span>';
+    return '<span class="pill tbd">usos a definir</span>';
+  }
+  function bonusPill(r){return r.bonus==null?'<span class="pill tbd">bônus a definir</span>':'<span class="pill cul">'+sg(r.bonus)+' na rolagem</span>'}
+  $("#cultList").innerHTML=CULTURAS.map(function(c){
+    var rs=RECURSOS.filter(function(r){return r.cultura===c});
+    return '<div class="cult" id="cult-'+slug(c)+'"><h4>'+c+'</h4>'+(rs.length?rs.map(function(r){
+      return '<div class="rc" id="rec-'+r.id+'"><b>'+esc(r.nome)+'</b><p>'+esc(r.efeito)+'</p><div class="meta">'+bonusPill(r)+usosPill(r)+'</div></div>';
+    }).join(""):'<p class="none">'+tbd("Recursos a definir.")+'</p>')+'</div>';
+  }).join("");
+
+  /* ---------- equipamento ---------- */
+  function propTxt(p){var k=p.split(":");return PROPS[k[0]][0]+(k[1]?" "+k[1]:"")}
+  function propLink(p){var k=p.split(":");return '<a class="pill" href="#prop-'+k[0]+'">'+esc(propTxt(p))+'</a>'}
+  function danoTxt(w){return w.dano?w.dano+" "+w.tipo:"sem dano tradicional"}
+  $("#weaponTables").innerHTML=WCATS.map(function(c){
+    return '<h4>'+c[1]+'</h4><div class="tbl-wrap"><table class="wtbl"><thead><tr><th>Arma</th><th>Dano</th><th>Propriedades</th></tr></thead><tbody>'+
+      ARMAS.filter(function(w){return w.c===c[0]}).map(function(w){
+        return '<tr id="arma-'+slug(w.nome)+'"><td>'+esc(w.nome)+'</td><td>'+(w.dano?esc(danoTxt(w)):tbd("sem dano tradicional"))+'</td><td><div class="pl">'+(w.props.length?w.props.map(propLink).join(""):'<span class="tbd">nenhuma</span>')+'</div></td></tr>';
+      }).join("")+'</tbody></table></div>';
+  }).join("");
+  $("#propList").innerHTML=Object.keys(PROPS).map(function(k){return '<div class="prop" id="prop-'+k+'"><b>'+PROPS[k][0]+'</b><p>'+PROPS[k][1]+'</p></div>'}).join("");
+  function caTxt(a){return a.base+(a.des==="full"?" + Des":a.des==="max2"?" + Des (máx. +2)":"")}
+  $("#armorTables").innerHTML=ACATS.map(function(c){
+    return '<h4>'+c[1]+'</h4><div class="tbl-wrap"><table><thead><tr><th>Armadura</th><th>CA</th><th class="c">For.</th><th>Furtividade</th><th>Peso</th><th>Preço</th></tr></thead><tbody>'+
+      ARMADURAS.filter(function(a){return a.c===c[0]}).map(function(a){
+        return '<tr id="armadura-'+a.id+'"><td><b>'+esc(a.nome)+'</b></td><td style="white-space:nowrap">'+caTxt(a)+'</td><td class="c">'+(a.forMin||"—")+'</td><td>'+(a.furt?"desvantagem":"—")+'</td><td style="white-space:nowrap">'+a.peso+'</td><td style="white-space:nowrap">'+a.preco+'</td></tr>';
+      }).join("")+'</tbody></table></div>';
+  }).join("");
+
+  /* ---------- pericias ---------- */
+  var chosen=store.get("pericias",[]).filter(function(p){return PERICIAS.indexOf(p)>-1}).slice(0,3);
+  var grid=$("#perGrid");
+  PERICIAS.forEach(function(p){
+    var b=document.createElement("button");b.type="button";b.className="per";b.dataset.p=p;
+    b.id="per-"+slug(p);
+    b.innerHTML='<span class="box" aria-hidden="true"></span><span>'+p+'</span>';
+    b.addEventListener("click",function(){
+      var i=chosen.indexOf(p);
+      if(i>-1)chosen.splice(i,1);else if(chosen.length<3)chosen.push(p);
+      store.set("pericias",chosen);renderPer();calc();
+    });
+    grid.appendChild(b);
+  });
+  function renderPer(){
+    $("#perCount").textContent=chosen.length;
+    $$(".per").forEach(function(b){
+      var on=chosen.indexOf(b.dataset.p)>-1;
+      b.setAttribute("aria-pressed",on?"true":"false");
+      b.disabled=!on&&chosen.length>=3;
+    });
+  }
+  $("#perClear").addEventListener("click",function(){chosen=[];store.set("pericias",chosen);renderPer();calc()});
+  renderPer();
+
+  /* ---------- ficha: estado ---------- */
+  function newHab(){return {id:uid(),nome:"",tipo:"Padrão",atr:"sab",lim:true,used:0,rec:"descanso_longo",orig:"Personagem",alc:"",dur:"",req:"",efeito:""}}
+  function fresh(){return {lvl:1,"for":14,des:12,con:15,"int":11,sab:16,car:13,nome:"",esp:"",lin:"",cul:"",vidaMax:null,vida:null,desg:false,esfUsed:0,hab:[newHab(),newHab(),newHab()],recUsed:{},arm:"",esc:false,armas:[],itens:[],test:{atr:"int",per:"",rec:"",mod:0}}}
+  var saved=store.get("ficha",null);
+  var st=Object.assign(fresh(),saved||{});
+  if(!Array.isArray(st.hab))st.hab=[];
+  st.test=Object.assign({atr:"int",per:"",rec:"",mod:0},st.test||{});
+  var isSample=!saved;
+  var mesa=store.get("mesa",{desgPen:null});
+
+  var attrsEl=$("#attrs");
+  ATTRS.forEach(function(a){
+    var d=document.createElement("div");d.className="attr";
+    d.innerHTML='<label for="a-'+a[0]+'" title="'+a[2]+'">'+a[1]+'</label><input id="a-'+a[0]+'" type="number" min="1" max="30" inputmode="numeric" aria-label="'+a[2]+'"><span class="mod" id="m-'+a[0]+'"></span>';
+    attrsEl.appendChild(d);
+  });
+  function opt(v,label,sel,dis){return '<option value="'+esc(v)+'"'+(sel?' selected':'')+(dis?' disabled':'')+'>'+esc(label)+'</option>'}
+  // selects fixos
+  $("#fEsp").innerHTML=opt("","Escolher espécie")+SP_CATS.map(function(c){
+    var names=c[1].filter(function(n){return SPECIES[n].cats[0]===c[0]});
+    return names.length?'<optgroup label="'+c[0]+'">'+names.map(function(n){return opt(n,n)}).join("")+'</optgroup>':"";
+  }).join("");
+  $("#fCul").innerHTML=opt("","Escolher cultura")+CULTURAS.map(function(c){return opt(c,c)}).join("");
+  $("#fArm").innerHTML=opt("","Sem armadura")+ACATS.map(function(c){
+    return '<optgroup label="'+c[1]+'">'+ARMADURAS.filter(function(a){return a.c===c[0]}).map(function(a){return opt(a.id,a.nome+" · CA "+caTxt(a))}).join("")+'</optgroup>';
+  }).join("");
+  $("#fArmaSel").innerHTML=WCATS.map(function(c){
+    return '<optgroup label="'+c[1]+'">'+ARMAS.filter(function(w){return w.c===c[0]}).map(function(w){return opt(w.nome,w.nome+" · "+danoTxt(w))}).join("")+'</optgroup>';
+  }).join("");
+  $("#tAtr").innerHTML=ATTRS.map(function(a){return opt(a[0],a[2])}).join("");
+
+  function renderIdentity(){
+    $("#fEsp").value=st.esp||"";
+    var sp=SPECIES[st.esp], lin=$("#fLin");
+    if(sp&&sp.lin.length){lin.disabled=false;lin.innerHTML=opt("","Sem linhagem")+sp.lin.map(function(l){return opt(l,l)}).join("");lin.value=st.lin||""}
+    else{lin.disabled=true;lin.innerHTML=opt("",st.esp?"Nenhuma cadastrada":"Escolha a espécie")}
+    $("#fCul").value=st.cul||"";
+  }
+  function renderInputs(){
+    $("#lvl").value=st.lvl;
+    ATTRS.forEach(function(a){$("#a-"+a[0]).value=st[a[0]]});
+    $("#fNome").value=st.nome||"";
+    renderIdentity();
+    $("#fVidaMax").value=st.vidaMax==null?"":st.vidaMax;
+    $("#fVida").value=st.vida==null?"":st.vida;
+    $("#fDesg").checked=!!st.desg;
+    $("#fDesgPen").value=mesa.desgPen==null?"":mesa.desgPen;
+    $("#fArm").value=st.arm||"";
+    $("#fEsc").checked=!!st.esc;
+    $("#tAtr").value=st.test.atr;
+    $("#tMod").value=st.test.mod||0;
+    renderHabs();
+  }
+
+  function clampLvl(v){v=parseInt(v,10);if(isNaN(v))v=1;return Math.max(1,Math.min(20,v))}
+  function numOrNull(v){v=parseInt(v,10);return isNaN(v)?null:v}
+  function readCore(){
+    st.lvl=clampLvl($("#lvl").value);
+    ATTRS.forEach(function(a){var v=parseInt($("#a-"+a[0]).value,10);st[a[0]]=isNaN(v)?0:v});
+    st.nome=$("#fNome").value;
+  }
+  function persist(){isSample=false;store.set("ficha",st)}
+  function saveSheet(){readCore();persist();calc()}
+  function na(el,txt){el.className="v na";el.textContent=txt||"a definir"}
+  function val(el,html){el.className="v";el.innerHTML=html}
+  function pips(left,max){var h="";for(var i=0;i<max;i++)h+='<i class="pip'+(i<left?' on':'')+'"></i>';return h}
+
+  function desgInfo(){
+    var base=mesa.desgPen!=null?mesa.desgPen:CONFIG.desgaste.penalidade;
+    var d=(SPECIES[st.esp]||{d:{}}).d;
+    if(!st.desg)return {val:0,txt:"Sem penalidade."};
+    if(d.desgImune===true)return {val:0,txt:"A espécie é imune ao desgaste."};
+    if(base==null)return {val:0,txt:"Penalidade a definir. Defina o valor ao lado para descontar dos testes."};
+    var red=+d.desgMod||0, v=Math.max(0,base-red);
+    return {val:v,txt:"Desconta "+v+" dos testes d20"+(red?" (reduzida em "+red+" pela espécie)":"")+"."};
+  }
+  function caInfo(M){
+    var a=armorOf(st.arm), extra=st.esc?ESCUDO.ca:0;
+    if(!a)return {v:null,h:"sem armadura: CA a definir"+(st.esc?", escudo +2":"")};
+    var add=0;
+    if(a.des!=="none"){if(M.des===null)return {v:null,h:a.nome};add=a.des==="full"?M.des:Math.min(M.des,2)}
+    return {v:a.base+add+extra,h:a.nome+(st.esc?" + escudo":"")+(a.furt?" · desvantagem em Furtividade":"")};
+  }
+  function recLeft(r,L){return Math.max(0,L-(st.recUsed[r.id]||0))}
+
+  /* ---------- ficha: cálculo ---------- */
+  function calc(){
+    var s=st, L=s.lvl, prof=profOf(L), row=ASC[L-1];
+    var M={};
+    ATTRS.forEach(function(a){
+      var m=modOf(s[a[0]]);M[a[0]]=m;
+      var el=$("#m-"+a[0]);
+      if(m===null){el.className="mod na";el.textContent="a definir"}else{el.className="mod";el.textContent=sg(m)}
+    });
+    var upTo=ASC.slice(0,L);
+    function count(t){return upTo.filter(function(r){return r[1].indexOf(t)>-1}).length}
+    val($("#oProf"),sg(prof));
+    var hEv=count("h");
+    val($("#oHab"),(3+hEv)+' <small>máx.</small>');
+    $("#oHabH").textContent=hEv?("3 iniciais + "+hEv+" escolha"+(hEv>1?"s":"")+" (nova ou aperfeiçoar 2)"):"3 iniciais";
+    val($("#oUsos"),L+' <small>por dia</small>');
+    val($("#oInfl"),"+"+(count("i")*10));
+    var aLv=upTo.filter(function(r){return r[1].indexOf("a")>-1}).map(function(r){return r[0]});
+    val($("#oAtr"),String(aLv.length));
+    $("#oAtrH").textContent=aLv.length?aLv.map(function(l){return "Nv "+l+": "+sg(profOf(l))}).join(" · "):"primeiro no nível 5";
+    val($("#oPer"),String(count("p")));
+
+    if(M.des===null)na($("#oDesl"));else val($("#oDesl"),(10+M.des)+' <small>m</small>');
+    if(M.con===null){na($("#oVida"));na($("#oVig"))}
+    else{val($("#oVida"),(7+M.con)+"–"+(12+M.con)+' <small>pts</small>');val($("#oVig"),M.con+' <small>rodadas</small>')}
+    if(M.int===null)na($("#oSm"));else val($("#oSm"),String(20*M.int));
+    val($("#oCarga"),(s["for"]*2)+' <small>kg</small>');
+    $("#vidaPreset").textContent=M.con===null?"1d6 + 6 + mod. CON":"1d6 + 6 "+sg(M.con)+" (CON)";
+    var ca=caInfo(M);
+    if(ca.v===null)na($("#oCA"));else val($("#oCA"),String(ca.v));
+    $("#oCAH").textContent=ca.h;
+    var a=armorOf(st.arm), w=$("#armWarn");
+    w.hidden=!(a&&a.forMin&&s["for"]<a.forMin);
+    if(!w.hidden)w.textContent="Força "+s["for"]+" abaixo do mínimo da armadura ("+a.forMin+"). O efeito disso ainda está a definir.";
+
+    // desgaste
+    var dg=desgInfo();
+    $("#desgNote").textContent=dg.txt;
+    $("#desgBox").classList.toggle("on",!!st.desg);
+
+    // esforço
+    var esfMax=row[2], esfLeft=Math.max(0,esfMax-st.esfUsed);
+    $("#esfPips").innerHTML=pips(esfLeft,esfMax);
+    $("#esfCnt").innerHTML=esfLeft+"/"+esfMax;
+    $("#esfUse").disabled=esfLeft<=0;
+
+    // habilidades
+    $$("#habList .hcard").forEach(function(c){
+      var h=st.hab[+c.dataset.i];if(!h)return;
+      var left=Math.max(0,L-h.used);
+      var use=$('[data-act="use"]',c), esf=$('[data-act="esf"]',c);
+      if(!h.lim){$(".cnt",c).innerHTML='<small>SEM LIMITE</small>';$(".pips",c).innerHTML="";use.hidden=true;esf.hidden=true;return}
+      $(".cnt",c).innerHTML=left+"/"+L;
+      $(".pips",c).innerHTML=pips(left,L);
+      use.hidden=false;use.disabled=left<=0;
+      esf.hidden=left>0;esf.disabled=esfLeft<=0;
+    });
+
+    // recursos de cultura
+    var rs=RECURSOS.filter(function(r){return r.cultura===st.cul}), rl=$("#recList");
+    if(!st.cul)rl.innerHTML='<p class="note" style="margin:0">Escolha uma cultura para ver os recursos dela.</p>';
+    else if(!rs.length)rl.innerHTML='<p class="note" style="margin:0">A cultura '+esc(st.cul)+' ainda não tem recursos definidos.</p>';
+    else rl.innerHTML=rs.map(function(r){
+      var lim=r.usos==="nivel", left=recLeft(r,L);
+      return '<div class="hcard" data-r="'+r.id+'"><div class="hrow" style="justify-content:space-between"><b>'+esc(r.nome)+'</b>'+bonusPill(r)+'</div>'+
+        '<p class="note" style="margin:4px 0 8px;font-style:normal">'+esc(r.efeito)+'</p>'+
+        '<div class="ctr">'+(lim?'<span class="pips">'+pips(left,L)+'</span><span class="cnt">'+left+'/'+L+'</span>':usosPill(r))+
+        '<div class="btns">'+(lim?'<button type="button" class="btn small" data-ract="use"'+(left<=0?' disabled':'')+'>Usar</button>':'')+
+        '<button type="button" class="btn small ghost" data-ract="test">Usar no teste</button></div></div></div>';
+    }).join("");
+
+    // teste d20
+    var tp=$("#tPer"), tr=$("#tRec");
+    if(chosen.indexOf(st.test.per)<0)st.test.per="";
+    tp.innerHTML=opt("","Nenhuma")+chosen.map(function(p){return opt(p,p+" ("+sg(CONFIG.pericia.treinada+prof)+")",p===st.test.per)}).join("");
+    var rOk=rs.some(function(r){return r.id===st.test.rec&&!(r.usos==="nivel"&&recLeft(r,L)<=0)});
+    if(!rOk)st.test.rec="";
+    tr.innerHTML=opt("","Nenhum")+rs.map(function(r){
+      var lim=r.usos==="nivel", left=recLeft(r,L);
+      return opt(r.id,r.nome+" ("+(r.bonus==null?"bônus a definir":sg(r.bonus))+(lim?", "+left+" usos":"")+")",r.id===st.test.rec,lim&&left<=0);
+    }).join("");
+    tr.disabled=!rs.length;
+    $("#tPrev").innerHTML=testParts(M,prof).map(function(p,i){return (i?(p.v<0?" &minus; ":" + "):"")+esc(p.l)+(p.d!=null?" ("+(p.v<0?-p.v:sg(p.v))+")":"")}).join("");
+
+    // armas e itens
+    $("#armaList").innerHTML=st.armas.length?st.armas.map(function(n,i){
+      var w=weaponOf(n);
+      return '<li><span class="nm">'+esc(n)+'<small>'+(w?esc(danoTxt(w))+(w.props.length?" · "+w.props.map(propTxt).join(", "):""):"")+'</small></span><button type="button" class="x" data-del-arma="'+i+'" aria-label="Remover '+esc(n)+'">&times;</button></li>';
+    }).join(""):'<li><span class="note" style="margin:0">Nenhuma arma.</span></li>';
+    $("#itemList").innerHTML=st.itens.length?st.itens.map(function(it,i){
+      return '<li><span class="nm">'+esc(it.n)+'<small>'+esc(it.c)+'</small></span><button type="button" class="x" data-del-item="'+i+'" aria-label="Remover '+esc(it.n)+'">&times;</button></li>';
+    }).join(""):'<li><span class="note" style="margin:0">Nenhum item.</span></li>';
+    var used=st.itens.length;
+    $("#slotCnt").innerHTML=used+"/"+SLOTS+(used>SLOTS?' <small class="warn">acima do limite</small>':'');
+
+    // tabela por atributo
+    var cb=$("#cdBody");cb.innerHTML="";
+    ATTRS.forEach(function(a){
+      var m=M[a[0]], trr=document.createElement("tr");
+      var tot=m===null?'<span class="muted" style="font-style:italic">a definir</span>':'<b>'+(s[a[0]]+m+prof)+'</b> <span class="muted" style="font-size:.85rem">('+s[a[0]]+" "+sg(m)+" "+sg(prof)+')</span>';
+      var res=m===null?'<span class="muted" style="font-style:italic">a definir</span>':'<b>'+(10+m+prof)+'</b>';
+      trr.innerHTML='<td>'+a[2]+'</td><td class="c">'+tot+'</td><td class="c">'+res+'</td>';
+      cb.appendChild(trr);
+    });
+
+    var ch=$("#oChosen");ch.innerHTML="";
+    if(!chosen.length){ch.innerHTML='<a class="btn small ghost" href="#pericias">Escolher perícias</a>'}
+    chosen.forEach(function(p){var s2=document.createElement("span");s2.className="pill per";s2.textContent=p+" +3";ch.appendChild(s2)});
+    $("#oChosenNote").textContent=chosen.length?("Treinada +3. Nas rolagens de perícia, some também a proficiência ("+sg(prof)+")."+(chosen.length<3?" Faltam "+(3-chosen.length)+".":"")):"";
+    $("#sampleFlag").hidden=!isSample;
+  }
+
+  // Componentes do teste d20: [{l:rótulo, v:valor, d:true se mostra valor}]
+  function testParts(M,prof){
+    var t=st.test, at=ATTRS.filter(function(a){return a[0]===t.atr})[0]||ATTRS[0];
+    var m=M[at[0]], parts=[{l:"d20",v:0,d:null}];
+    parts.push({l:at[2]+(m===null?" (mod. a definir)":""),v:m||0,d:m===null?null:1});
+    if(t.per)parts.push({l:t.per,v:CONFIG.pericia.treinada+prof,d:1});
+    var r=recOf(t.rec);
+    if(r)parts.push({l:r.nome+(r.bonus==null?" (bônus a definir)":""),v:r.bonus||0,d:r.bonus==null?null:1});
+    if(+t.mod)parts.push({l:"outros",v:+t.mod,d:1});
+    var dg=desgInfo();
+    if(st.desg)parts.push({l:"Desgaste"+(dg.val?"":" (sem valor)"),v:-dg.val,d:dg.val?1:null});
+    return parts;
+  }
+  function curMods(){var M={};ATTRS.forEach(function(a){M[a[0]]=modOf(st[a[0]])});return M}
+
+  /* ---------- ficha: habilidades ---------- */
+  function hsel(k,opts,v,label){return '<select class="sel" data-k="'+k+'" aria-label="'+label+'">'+opts.map(function(o){return opt(o[0],o[1],o[0]===v)}).join("")+'</select>'}
+  function pairs(a){return a.map(function(x){return [x,x]})}
+  function habCard(h,i){
+    return '<div class="hcard" data-i="'+i+'">'+
+      '<div class="hrow"><input class="txt name" data-k="nome" maxlength="60" placeholder="Habilidade '+(i+1)+(i<3?' (verbo inicial)':'')+'" value="'+esc(h.nome)+'" aria-label="Nome da habilidade"><button type="button" class="x" data-act="del" aria-label="Remover habilidade">&times;</button></div>'+
+      '<div class="hrow"><div class="hsel">'+
+        hsel("tipo",pairs(HAB_TIPOS),h.tipo,"Tipo")+
+        hsel("atr",ATTRS.map(function(a){return [a[0],a[2]]}),h.atr,"Atributo relacionado")+
+        hsel("lim",[["nivel","Usos: nível por dia"],["livre","Sem limite"]],h.lim?"nivel":"livre","Limite de uso")+
+      '</div></div>'+
+      '<div class="hrow ctr"><span class="pips"></span><span class="cnt"></span><div class="btns">'+
+        '<button type="button" class="btn small" data-act="use">Usar</button>'+
+        '<button type="button" class="btn small ghost" data-act="esf">Usar com esforço</button>'+
+        '<button type="button" class="btn small ghost" data-act="d12" aria-label="Rolar d12 de qualidade">d12</button></div></div>'+
+      '<details><summary>Detalhes</summary><div class="dgrid">'+
+        '<div class="field"><span class="lbl">Origem</span>'+hsel("orig",pairs(HAB_ORIG),h.orig,"Origem")+'</div>'+
+        '<div class="field"><span class="lbl">Recuperação</span>'+hsel("rec",Object.keys(RECUP).map(function(k){return [k,RECUP[k]]}),h.rec,"Tipo de recuperação")+'</div>'+
+        '<div class="field"><span class="lbl">Alcance</span><input class="txt" data-k="alc" maxlength="60" value="'+esc(h.alc)+'" aria-label="Alcance"></div>'+
+        '<div class="field"><span class="lbl">Duração</span><input class="txt" data-k="dur" maxlength="60" value="'+esc(h.dur)+'" aria-label="Duração"></div>'+
+        '<div class="field full"><span class="lbl">Requisitos</span><input class="txt" data-k="req" maxlength="120" value="'+esc(h.req)+'" aria-label="Requisitos"></div>'+
+        '<div class="field full"><span class="lbl">Efeito</span><textarea class="txt" data-k="efeito" maxlength="600" aria-label="Efeito">'+esc(h.efeito)+'</textarea></div>'+
+      '</div></details></div>';
+  }
+  function renderHabs(){
+    var hl=$("#habList");
+    hl.innerHTML=st.hab.length?st.hab.map(habCard).join(""):'<p class="note" style="margin:0">Nenhuma habilidade.</p>';
+  }
+  $("#habList").addEventListener("input",function(e){
+    var k=e.target.dataset.k, c=e.target.closest(".hcard");if(!k||!c)return;
+    var h=st.hab[+c.dataset.i];if(!h)return;
+    if(k==="lim")h.lim=e.target.value==="nivel";else h[k]=e.target.value;
+  });
+  $("#habList").addEventListener("click",function(e){
+    var b=e.target.closest("[data-act]");if(!b)return;
+    var i=+b.closest(".hcard").dataset.i, h=st.hab[i], L=st.lvl, nm=h.nome||("Habilidade "+(i+1));
+    var act=b.dataset.act;
+    if(act==="del"){st.hab.splice(i,1);renderHabs();persist();calc();return}
+    if(act==="d12"){openRoller();rollD12(nm);return}
+    if(act==="use"){if(h.lim&&L-h.used<=0)return;if(h.lim)h.used++;pushHist(nm,"usada"+(h.lim?" · "+(L-h.used)+"/"+L:""))}
+    if(act==="esf"){var em=ASC[L-1][2];if(st.esfUsed>=em)return;st.esfUsed++;pushHist(nm,"usada com esforço · esforço "+(em-st.esfUsed)+"/"+em)}
+    persist();calc();
+  });
+  $("#habAdd").addEventListener("click",function(){
+    st.hab.push(newHab());renderHabs();persist();calc();
+    var last=$("#habList .hcard:last-child .name");if(last)last.focus();
+  });
+  $("#esfUse").addEventListener("click",function(){
+    var em=ASC[st.lvl-1][2];if(st.esfUsed>=em)return;
+    st.esfUsed++;pushHist("Esforço","refazer ação · "+(em-st.esfUsed)+"/"+em);persist();calc();
+  });
+
+  /* ---------- ficha: recursos de cultura ---------- */
+  $("#recList").addEventListener("click",function(e){
+    var b=e.target.closest("[data-ract]");if(!b)return;
+    var r=recOf(b.closest("[data-r]").dataset.r);if(!r)return;
+    if(b.dataset.ract==="use"){
+      if(recLeft(r,st.lvl)<=0)return;
+      st.recUsed[r.id]=(st.recUsed[r.id]||0)+1;
+      pushHist(r.nome,"usado · "+recLeft(r,st.lvl)+"/"+st.lvl);persist();calc();
+    }else{
+      st.test.rec=r.id;persist();calc();
+      var t=$("#tRec");t.value=r.id;t.closest(".test").scrollIntoView({behavior:"smooth",block:"center"});
+    }
+  });
+
+  /* ---------- ficha: identidade, vida, estados, equipamento ---------- */
+  $("#fEsp").addEventListener("input",function(){st.esp=this.value;st.lin="";renderIdentity()});
+  $("#fLin").addEventListener("input",function(){st.lin=this.value});
+  $("#fCul").addEventListener("input",function(){st.cul=this.value});
+  $("#fVidaMax").addEventListener("input",function(){st.vidaMax=numOrNull(this.value);if(st.vida==null&&st.vidaMax!=null){st.vida=st.vidaMax;$("#fVida").value=st.vida}});
+  $("#fVida").addEventListener("input",function(){st.vida=numOrNull(this.value)});
+  $$("[data-vida]").forEach(function(b){b.addEventListener("click",function(){
+    var v=(st.vida==null?(st.vidaMax||0):st.vida)+ +b.dataset.vida;
+    v=Math.max(0,st.vidaMax!=null?Math.min(st.vidaMax,v):v);
+    st.vida=v;$("#fVida").value=v;persist();
+  })});
+  $("#fDesg").addEventListener("input",function(){st.desg=this.checked});
+  $("#fDesgPen").addEventListener("input",function(){var v=numOrNull(this.value);mesa.desgPen=v==null?null:Math.max(0,v);store.set("mesa",mesa)});
+  $("#fArm").addEventListener("input",function(){st.arm=this.value});
+  $("#fEsc").addEventListener("input",function(){st.esc=this.checked});
+  $("#armaAdd").addEventListener("click",function(){st.armas.push($("#fArmaSel").value);persist();calc()});
+  $("#armaList").addEventListener("click",function(e){var b=e.target.closest("[data-del-arma]");if(!b)return;st.armas.splice(+b.dataset.delArma,1);persist();calc()});
+  function addItem(){
+    var n=$("#itemNome").value.trim();if(!n){$("#itemNome").focus();return}
+    st.itens.push({n:n,c:$("#itemCat").value});$("#itemNome").value="";persist();calc();
+  }
+  $("#itemAdd").addEventListener("click",addItem);
+  $("#itemNome").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();addItem()}});
+  $("#itemList").addEventListener("click",function(e){var b=e.target.closest("[data-del-item]");if(!b)return;st.itens.splice(+b.dataset.delItem,1);persist();calc()});
+
+  /* ---------- ficha: descanso ---------- */
+  $$("[data-rest]").forEach(function(b){b.addEventListener("click",function(){
+    var type=b.dataset.rest, cfg=CONFIG.descanso[type], out=[];
+    st.hab.forEach(function(h,i){if(h.lim&&h.rec===type&&h.used>0){h.used=0;out.push(h.nome||("Habilidade "+(i+1)))}});
+    RECURSOS.forEach(function(r){if(r.usos==="nivel"&&r.rec===type&&st.recUsed[r.id]){st.recUsed[r.id]=0;out.push(r.nome)}});
+    if(CONFIG.esforcoRecupera===type&&st.esfUsed>0){st.esfUsed=0;out.push("Esforço")}
+    $("#restNote").textContent=cfg.nome+" ("+cfg.horas+" h): "+(out.length?"restaurou "+out.join(", ")+".":"nada para restaurar.");
+    pushHist(cfg.nome,out.length?out.length+" restaurado"+(out.length>1?"s":""):"nada");
+    persist();calc();
+  })});
+
+  /* ---------- ficha: teste d20 ---------- */
+  $("#tAtr").addEventListener("input",function(){st.test.atr=this.value});
+  $("#tPer").addEventListener("input",function(){st.test.per=this.value});
+  $("#tRec").addEventListener("input",function(){st.test.rec=this.value});
+  $("#tMod").addEventListener("input",function(){st.test.mod=numOrNull(this.value)||0});
+  $("#tRoll").addEventListener("click",function(){
+    var M=curMods(), prof=profOf(st.lvl), parts=testParts(M,prof), d=rnd(20);
+    parts[0].v=d;parts[0].d=1;
+    var tot=parts.reduce(function(a,p){return a+p.v},0);
+    var r=recOf(st.test.rec);
+    if(r&&r.usos==="nivel"){st.recUsed[r.id]=(st.recUsed[r.id]||0)+1}
+    var line=parts.filter(function(p){return p.d!=null}).map(function(p,i){return (i?'<em>'+(p.v<0?"&minus;":"+")+'</em>':'')+'<span title="'+esc(p.l)+'">'+Math.abs(p.v)+'</span>'}).join("")+'<em>=</em><span class="total">'+tot+'</span>';
+    var lbl=parts.slice(1).map(function(p){return p.l}).join(" · ");
+    openRoller();
+    show("Teste d20",tot,esc(lbl),'<div class="calc-line">'+line+'</div>');
+    pushHist("d20 · "+(ATTRS.filter(function(a){return a[0]===st.test.atr})[0]||ATTRS[0])[1]+(st.test.per?" · "+st.test.per:"")+(r?" · "+r.nome:""),tot+" (d20 = "+d+")");
+    persist();calc();
+  });
+
+  /* ---------- ficha: eventos gerais ---------- */
+  $("#sheet").addEventListener("input",saveSheet);
+  $("#sheet").addEventListener("submit",function(e){e.preventDefault()});
+  $$("[data-step]").forEach(function(b){b.addEventListener("click",function(){
+    $("#lvl").value=clampLvl(+$("#lvl").value+ +b.dataset.step);saveSheet();
+  })});
+  $("#lvl").addEventListener("blur",function(){$("#lvl").value=clampLvl($("#lvl").value);saveSheet()});
+  var resetArm=null;
+  $("#sheetReset").addEventListener("click",function(){
+    var b=this;
+    if(!resetArm){b.textContent="Toque de novo para limpar";resetArm=setTimeout(function(){resetArm=null;b.textContent="Limpar ficha"},3000);return}
+    clearTimeout(resetArm);resetArm=null;b.textContent="Limpar ficha";
+    st=fresh();isSample=true;store.del("ficha");renderInputs();calc();
+  });
+
+  /* ---------- gavetas (rolador e informações) ---------- */
+  var drawer=$("#roller"), info=$("#info"), scrim=$("#scrim"), openEl=null, lastFocus=null;
+  function openSheet(el){
+    if(openEl&&openEl!==el)openEl.classList.remove("open");
+    if(!openEl)lastFocus=document.activeElement;
+    el.classList.add("open");scrim.classList.add("open");openEl=el;
+    setTimeout(function(){var c=$(".close",el);if(c)c.focus()},50);
+  }
+  function closeSheet(){
+    if(!openEl)return;
+    openEl.classList.remove("open");scrim.classList.remove("open");openEl=null;
+    if(lastFocus&&lastFocus.focus&&document.body.contains(lastFocus))lastFocus.focus({preventScroll:true});
+  }
+  function openRoller(){if(openEl!==drawer)openSheet(drawer)}
+  $$("[data-open-roller]").forEach(function(b){b.addEventListener("click",openRoller)});
+  $("#rollerClose").addEventListener("click",closeSheet);
+  $("#infoClose").addEventListener("click",closeSheet);
+  scrim.addEventListener("click",closeSheet);
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeSheet();closeSearch()}});
+
+  function rnd(n){
+    if(window.crypto&&crypto.getRandomValues){var a=new Uint32Array(1);crypto.getRandomValues(a);return (a[0]%n)+1}
+    return Math.floor(Math.random()*n)+1;
+  }
+  var history=store.get("hist",[]);
+  function renderHist(){
+    var h=$("#hist");h.innerHTML="";
+    if(!history.length){h.innerHTML='<li><span class="t">Nenhuma rolagem ainda.</span></li>';return}
+    history.slice(0,12).forEach(function(x){var li=document.createElement("li");li.innerHTML='<span class="t">'+esc(x.l)+'</span><b>'+esc(x.v)+'</b>';h.appendChild(li)});
+  }
+  function pushHist(l,v){history.unshift({l:l,v:v});history=history.slice(0,30);store.set("hist",history);renderHist()}
+  $("#histClear").addEventListener("click",function(){history=[];store.set("hist",history);renderHist()});
+  renderHist();
+
+  var res=$("#result");
+  function show(what,bigHtml,brk,extra){
+    res.innerHTML='<span class="what">'+what+'</span><span class="big roll">'+bigHtml+'</span>'+(brk?'<span class="brk">'+brk+'</span>':'')+(extra||"");
+  }
+  function tierOf(n){return n>=9?["crit","Divino Crítico"]:n>=5?["hit","Acerto"]:["med","Medíocre"]}
+  function rollD12(label){
+    var n=rnd(12),t=tierOf(n);
+    show("Mecânica Divina · 1d12",n,label?esc(label):null,'<span class="tierchip '+t[0]+'">'+t[1]+'</span>');
+    pushHist(label?"d12 · "+label:"Mecânica Divina",n+" · "+t[1]);
+  }
+  var lastSix=null;
+  var ROLLS={
+    d12:function(){rollD12(null)},
+    attr:function(){var d=rnd(8);show("Atributo · 1d8 + 8",d+8,"d8 = "+d+" + 8");pushHist("Atributo",d+8)},
+    d20:function(){var d=rnd(20);show("1d20",d);pushHist("d20",d)},
+    vida:function(){
+      var m=modOf(st.con),d=rnd(6),v=d+6+(m||0);
+      var btn='<button class="btn small" type="button" id="toVida" style="margin-top:10px">Usar como vida máxima</button>';
+      if(m===null)show("Vida · 1d6 + 6",v,"d6 = "+d+" + 6 · mod. CON a definir",btn);
+      else show("Vida · 1d6 + 6 "+sg(m),v,"d6 = "+d+" + 6 "+sg(m)+" (CON)",btn);
+      pushHist("Vida",v);
+      $("#toVida").addEventListener("click",function(){
+        st.vidaMax=v;st.vida=v;$("#fVidaMax").value=v;$("#fVida").value=v;persist();calc();closeSheet();
+      });
+    },
+    six:function(){
+      lastSix=ATTRS.map(function(){return rnd(8)+8});
+      var cells=lastSix.map(function(v,i){return '<div><small>'+ATTRS[i][1]+'</small><b>'+v+'</b></div>'}).join("");
+      res.innerHTML='<span class="what">Seis atributos · 1d8 + 8</span><div class="six roll">'+cells+'</div><button class="btn small" type="button" id="toSheet" style="margin-top:10px">Usar na ficha</button>';
+      $("#toSheet").addEventListener("click",function(){
+        ATTRS.forEach(function(a,i){$("#a-"+a[0]).value=lastSix[i]});saveSheet();closeSheet();
+        $("#ficha").scrollIntoView({behavior:"smooth"});
+      });
+      pushHist("Seis atributos",lastSix.join(" · "));
+    }
+  };
+  $$("[data-roll]").forEach(function(b){b.addEventListener("click",function(){
+    openRoller();
+    ROLLS[b.dataset.roll]();
+  })});
+
+  var DIE=[4,6,8,10,12,20,100], die=store.get("die",20);
+  var diceEl=$("#dice");
+  DIE.forEach(function(n){
+    var b=document.createElement("button");b.type="button";b.className="die";b.textContent="d"+n;b.dataset.d=n;
+    b.addEventListener("click",function(){die=n;store.set("die",n);renderDice()});diceEl.appendChild(b);
+  });
+  function renderDice(){$$(".die").forEach(function(b){b.setAttribute("aria-pressed",+b.dataset.d===die?"true":"false")})}
+  renderDice();
+  $$("[data-cstep]").forEach(function(b){b.addEventListener("click",function(){
+    var p=b.dataset.cstep.split(":"),el=$("#"+p[0]),v=(parseInt(el.value,10)||0)+ +p[1];
+    el.value=Math.max(+el.min,Math.min(+el.max,v));
+  })});
+  $("#cRoll").addEventListener("click",function(){
+    var q=Math.max(1,Math.min(20,parseInt($("#cQty").value,10)||1)), m=parseInt($("#cMod").value,10)||0;
+    var rs=[];for(var i=0;i<q;i++)rs.push(rnd(die));
+    var tot=rs.reduce(function(a,b){return a+b},0)+m;
+    var label=q+"d"+die+(m?" "+sg(m):"");
+    show(label,tot,"["+rs.join(", ")+"]"+(m?" "+sg(m):""));
+    pushHist(label,tot);
+  });
+
+  renderInputs();
+  calc();
+
+  /* ---------- search ---------- */
+  function whereOf(el){
+    var ch=el&&el.closest("section[data-ch]");
+    return ch?(ch.getAttribute("data-n")==="Ap"?"Apêndice":"Capítulo "+ch.getAttribute("data-n"))+" · "+ch.getAttribute("data-ch"):"";
+  }
+  function block(el,title,text,extra){
+    var b={el:el,title:title,where:whereOf(el),text:text,norm:fold(text),ntitle:fold(title)};
+    return Object.assign(b,extra||{});
+  }
+  var blocks=$$("[data-s]").map(function(el){
+    return block(el,el.getAttribute("data-s"),(el.innerText||el.textContent).replace(/\s+/g," ").trim());
+  });
+  PERICIAS.forEach(function(p){blocks.push(block($("#per-"+slug(p)),p,"Perícia: "+p))});
+  SP_ORDER.forEach(function(n){
+    var sp=SPECIES[n];
+    blocks.push(block($("#sp-"+slug(n)),n,"Espécie: "+n+" · "+sp.cats.join(", ")+(sp.lin.length?" · Linhagens: "+sp.lin.join(", "):""),{id:"sp-"+slug(n),open:function(){showSpecies(n)}}));
+    sp.lin.forEach(function(l){blocks.push(block($("#sp-"+slug(n)),l,"Linhagem de "+n,{id:"sp-"+slug(n),open:function(){showSpecies(n)}}))});
+  });
+  CULTURAS.forEach(function(c){blocks.push(block($("#cult-"+slug(c)),"Cultura "+c,$("#cult-"+slug(c)).textContent))});
+  RECURSOS.forEach(function(r){blocks.push(block($("#rec-"+r.id),r.nome,"Recurso de Cultura ("+r.cultura+"): "+r.efeito))});
+  ARMAS.forEach(function(w){blocks.push(block($("#arma-"+slug(w.nome)),w.nome,"Arma: "+danoTxt(w)+(w.props.length?" · "+w.props.map(propTxt).join(", "):"")))});
+  ARMADURAS.forEach(function(a){blocks.push(block($("#armadura-"+a.id),a.nome,"Armadura: CA "+caTxt(a)+" · "+a.peso+" · "+a.preco))});
+  Object.keys(PROPS).forEach(function(k){blocks.push(block($("#prop-"+k),PROPS[k][0],"Propriedade de arma: "+PROPS[k][1]))});
+
+  var q=$("#q"), resEl=$("#results"), top=$(".top");
+  function hl(text,norm,nq){
+    var i=norm.indexOf(nq);if(i<0)return esc(text);
+    return esc(text.slice(0,i))+"<mark>"+esc(text.slice(i,i+nq.length))+"</mark>"+esc(text.slice(i+nq.length));
+  }
+  function search(){
+    var v=q.value.trim();
+    if(v.length<2){resEl.hidden=true;resEl.innerHTML="";return}
+    var nq=fold(v);
+    var hits=blocks.map(function(b){
+      var ti=b.ntitle.indexOf(nq), bi=b.norm.indexOf(nq);
+      if(ti<0&&bi<0)return null;
+      return {b:b,score:(ti===0?0:ti>-1?1:2),pos:bi};
+    }).filter(Boolean).sort(function(a,b){return a.score-b.score}).slice(0,24);
+    resEl.hidden=false;
+    if(!hits.length){resEl.innerHTML='<div class="r-empty">Nada encontrado para "'+esc(v)+'".</div>';return}
+    resEl.innerHTML="";
+    hits.forEach(function(h){
+      var b=h.b, s=Math.max(0,h.pos-40), e=Math.min(b.text.length,h.pos+nq.length+70);
+      var snipT=(s>0?"...":"")+b.text.slice(s,e)+(e<b.text.length?"...":"");
+      var snipN=(s>0?"...":"")+b.norm.slice(s,e)+(e<b.text.length?"...":"");
+      var btn=document.createElement("button");btn.type="button";
+      btn.innerHTML='<span class="r-where">'+esc(b.where)+'</span><span class="r-title">'+hl(b.title,b.ntitle,nq)+'</span>'+(h.pos>-1?'<span class="r-snip">'+hl(snipT,snipN,nq)+'</span>':"");
+      btn.addEventListener("click",function(){
+        closeSearch();
+        var el=b.id?document.getElementById(b.id):b.el;
+        if(!el&&b.id){spCat="Todas";renderSpecies();el=document.getElementById(b.id)}
+        if(el){
+          el.scrollIntoView({behavior:"smooth",block:"start"});
+          el.classList.remove("flash");void el.offsetWidth;el.classList.add("flash");
+        }
+        if(b.open)b.open();
+      });
+      resEl.appendChild(btn);
+    });
+  }
+  function closeSearch(){resEl.hidden=true;top.classList.remove("searching");}
+  q.addEventListener("input",search);
+  q.addEventListener("focus",search);
+  q.addEventListener("keydown",function(e){if(e.key==="Enter"){var f=resEl.querySelector("button");if(f)f.click()}});
+  document.addEventListener("click",function(e){if(!e.target.closest("#searchWrap")&&!e.target.closest("#searchToggle"))closeSearch()});
+  $("#searchToggle").addEventListener("click",function(){top.classList.add("searching");setTimeout(function(){q.focus()},30)});
+
+  spy();
+})();
+</script>
+</body>
+</html>
